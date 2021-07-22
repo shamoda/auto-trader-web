@@ -1,0 +1,45 @@
+.NotFoundError-title {
+    font-family: 'Bebas Neue', cursive;
+    background: black;
+    color: white;
+    font-size: 80px;
+    text-align: center;
+}
+
+.NotFoundError-sub {
+    font-family: 'Bebas Neue', cursive;
+    color: white;
+    font-size: 50px;
+    background: black;
+    text-align: center;
+}
+
+.NotFoundError-image {
+    font-family: 'Bebas Neue', cursive;
+    width: 220px;
+    height: 220px;
+    color: white;
+    font-size: 50px;
+    background: black;
+    text-align: center !important;
+}
+
+.NotFoundError-img {
+    font-family: 'Bebas Neue', cursive;
+    width: 100%;
+    color: white;
+    font-size: 50px;
+    background: black;
+    text-align: center !important;
+}
+
+.NotFoundError-main {
+    /* font-family: 'Bebas Neue', cursive; */
+    width: 100%;
+    color: white;
+    padding: 80px;
+    font-size: 20px;
+    background: black;
+    font-weight: 600;
+    text-align: center !important;
+}

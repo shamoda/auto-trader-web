@@ -1,0 +1,9 @@
+.footer-container {
+    /* font-family: 'Bebas Neue', cursive; */
+    color: white;
+    font-size: 15px;
+    height: 80px;
+    background: black;
+    text-align: center;
+    padding: 28px 0px;
+}
