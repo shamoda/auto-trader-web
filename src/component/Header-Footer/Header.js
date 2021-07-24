@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Image, Nav, Navbar } from 'react-bootstrap';
+import { Image, Nav, Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import logo from '../../asset/logo.png'
 import Authentication from '../../authentication/Authentication';
