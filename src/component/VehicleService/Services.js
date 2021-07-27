@@ -19,6 +19,10 @@ class Services extends React.Component {
     this.getServices();
   }
 
+  serviceDetailHandle = (id) => {
+    return this.props.history.push(`/services/${id}`);
+  };
+
   getServices() {
     let service = {
       status: 'pending', //test
@@ -31,6 +35,7 @@ class Services extends React.Component {
   }
   render() {
     const { services } = this.state;
+    const { serviceDetailHandle } = this;
     return (
       <div style={{ padding: 50 }}>
         <Row>
@@ -53,12 +58,14 @@ class Services extends React.Component {
             {services.map((service) => (
               <div style={{ marginTop: 20 }} key={service.id}>
                 <ServiceCard
+                  Id={service.id}
                   title={service.title}
                   subtitle={service.subTitle}
                   location={service.location}
                   provider={service.serviceProvider}
                   time={service.currentTime}
                   image1={service.image1}
+                  detailHandle={serviceDetailHandle}
                 />
               </div>
             ))}

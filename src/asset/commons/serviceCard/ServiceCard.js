@@ -5,16 +5,18 @@ import moment from 'moment';
 import './ServiceCard.css';
 
 export default function ServiceCard({
+  Id,
   image1,
   title,
   subtitle,
   location,
   provider,
   time,
+  detailHandle,
 }) {
   return (
     <>
-      <Card className="service-card">
+      <Card className="service-card" onClick={() => detailHandle(Id)}>
         <Row>
           <Col sm={12} md={3}>
             <Card.Img
