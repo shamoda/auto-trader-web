@@ -7,6 +7,7 @@ import Login from './Login/Login';
 import NotFoundError from './NotFoundError/NotFoundError';
 import ServiceDetail from './VehicleService/ServiceDetail';
 import AddService from './VehicleService/ServiceRegistration/AddService';
+import SparePart from './SpareParts/SpareParts';
 import Services from './VehicleService/Services';
 
 class FrontEnd extends Component {
@@ -22,7 +23,7 @@ class FrontEnd extends Component {
             <Route path="/services/:id" component={ServiceDetail} />
             <Route path="/services" component={Services} />
             <Route path="/addService" component={AddService} />
-
+            <Route path="/spareparts" component={SparePart} />
             <Route component={NotFoundError} />
           </Switch>
           <Footer />
