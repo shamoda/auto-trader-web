@@ -2,7 +2,16 @@ import { Form, Alert } from 'react-bootstrap';
 import React from 'react'
 
 export default function TextArea(props) {
-    const { FormLabel, name, value, handleChange, FormText, error, type, placeholder, trap } = props
+    const {
+      FormLabel,
+      name,
+      value,
+      handleChange,
+      FormText,
+      error,
+      type,
+      placeholder,
+    } = props;
     return (
 
         <Form.Group controlId="aa" >

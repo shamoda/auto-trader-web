@@ -4,10 +4,33 @@ import SearchBar from '../../asset/commons/SearchBar';
 
 import ServiceCard from '../../asset/commons/serviceCard/ServiceCard';
 import VerticalNav from '../../asset/commons/serviceCard/VerticalNav';
+import ServiceDataService from './ServiceDataService';
 
 class Services extends React.Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      services: [],
+    };
+    this.getServices = this.getServices.bind(this);
+  }
+
+  componentDidMount() {
+    this.getServices();
+  }
+
+  getServices() {
+    let service = {
+      status: 'pending', //test
+    };
+    this.setState({ loading: true });
+    ServiceDataService.getService(service).then((response) => {
+      this.setState({ services: response.data });
+      this.setState({ loading: false });
+    });
+  }
   render() {
+    const { services } = this.state;
     return (
       <div style={{ padding: 50 }}>
         <Row>
@@ -26,69 +49,19 @@ class Services extends React.Component {
             <div style={{ marginTop: 10, marginBottom: 50, width: '80%' }}>
               <SearchBar placeholder="Search an item" />
             </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>{' '}
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>{' '}
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>{' '}
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>{' '}
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>{' '}
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>{' '}
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
-            <div style={{ marginTop: 20 }}>
-              <ServiceCard />
-            </div>
+
+            {services.map((service) => (
+              <div style={{ marginTop: 20 }} key={service.id}>
+                <ServiceCard
+                  title={service.title}
+                  subtitle={service.subTitle}
+                  location={service.location}
+                  provider={service.serviceProvider}
+                  time={service.currentTime}
+                  image1={service.image1}
+                />
+              </div>
+            ))}
           </Col>
         </Row>
       </div>
