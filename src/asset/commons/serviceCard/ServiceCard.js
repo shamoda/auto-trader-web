@@ -1,25 +1,51 @@
 import React from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
+import moment from 'moment';
+
 import './ServiceCard.css';
-import mustan from '../../mustan.jpeg';
-export default function ServiceCard() {
+
+export default function ServiceCard({
+  Id,
+  image1,
+  title,
+  subtitle,
+  location,
+  provider,
+  time,
+  detailHandle,
+}) {
   return (
     <>
-      <Card className="service-card">
+      <Card className="service-card" onClick={() => detailHandle(Id)}>
         <Row>
           <Col sm={12} md={3}>
             <Card.Img
               style={{
-                height: 90,
+                height: 100,
                 width: '100%',
               }}
-              src={mustan}
+              src={`https://auto-trader-service-test.s3.amazonaws.com/${image1}`}
             />
           </Col>
           <Col sm={12} md={9}>
             <Card.Body style={{ padding: 5 }}>
-              <h3>For Sale</h3>
-              This is some text within a card body.
+              <Row>
+                <Col>
+                  <h5>{title}</h5>
+                  <h6>{subtitle}</h6>
+                </Col>
+                <Col>
+                  <h6>{location}</h6>
+                  <p>{provider}</p>
+                </Col>
+              </Row>
+              <Row>
+                {' '}
+                <div style={{ fontSize: 12 }}>
+                  Last modified on :{' '}
+                  {moment({ time }).format('MMMM Do YYYY, h:mm:ss a')}
+                </div>
+              </Row>
             </Card.Body>
           </Col>
         </Row>
