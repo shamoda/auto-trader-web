@@ -1,0 +1,55 @@
+.attendeeregistration-title {
+    font-family: 'Bebas Neue', cursive;
+    color: white;
+    font-size: 80px;
+    height: 200px;
+    background: black;
+    text-align: center;
+    padding: 28px 0px;
+}
+
+.attendeeregistration-container {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.attendeeregistration-form-group {
+    margin-top: 5px;
+    font-weight: 600;
+}
+
+.attendeeregistration-form-input {
+    border-width: 2px !important;
+    color: black !important;
+    font-weight: 480 !important;
+}
+
+.attendeeregistration-button {
+    font-weight: 600;
+    background-color: black !important;
+    margin-top: 10px;
+    width: 100px !important;
+    padding: 8px;
+    border-radius: 5px !important;
+}
+
+.attendeeregistration-error {
+    color: red;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.attendeeregistration-arrow {
+    font-weight: 600;
+    background-color: transparent !important;
+    margin-top: 10px;
+    color: black !important;
+    border: none !important;
+}
+
+.attendeeregistration-paypal {
+    width: 100px !important;
+    text-align: center;
+}
