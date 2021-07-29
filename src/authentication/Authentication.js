@@ -50,6 +50,18 @@ class Athentication {
         return null;
     }
 
+    loggedUserLocation() {
+        let location = sessionStorage.getItem('authenticatedUserLocation');
+        if (location != null) return location;
+        return null;
+    }
+
+    loggedUserContact() {
+        let contact = sessionStorage.getItem('authenticatedUserContact');
+        if (contact != null) return contact;
+        return null;
+    }
+
     loggedAsSeller() {
         let role = this.loggedUserRole()
         if (role != null && role === 'seller') return true;
