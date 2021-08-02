@@ -1,29 +1,115 @@
+import { faFastBackward, faFastForward, faSearch, faStepBackward, faStepForward, faUsersCog } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Component } from 'react';
-import { Col, Container, Form, ListGroup, Row } from 'react-bootstrap';
+import { Badge, Button, Card, Col, Container, Form, FormControl, Image, InputGroup, ListGroup, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import SparePartCard from './SparePartCard/SparePartCard';
 import './SpareParts.css'
+import SparePartDataService from './SparePartDataService'
+import banner from '../../asset/banner.jpg'
 
 class SparePart extends Component {
   
   constructor(props){
     super(props);
     this.state = {
-      category: ''
+      category: '',
+      spares: [],
+
+      currentPage: 1,
+      entriesPerPage: 5,
+      search: '',
+      searchMessage: null,
+      loading: false
     }
 
-    // this.onFileChange = this.onFileChange.bind(this);
+    this.refreshSpares = this.refreshSpares.bind(this);
   }
+
+  refreshSpares() {
+        let example = {
+          title: this.state.search,
+          category: this.state.category,
+          status: "pending"
+        }
+        SparePartDataService.getSpares(example)
+            .then(response => {
+                this.setState({ spares: response.data })
+            })
+  }
+  
+  componentDidMount() {
+        this.refreshSpares()
+  }
+
+  firstPage = () => {
+        if (this.state.currentPage > 1) {
+            this.setState({
+                currentPage: 1
+            });
+        }
+    };
+
+    prevPage = () => {
+        if (this.state.currentPage > 1) {
+            this.setState({
+                currentPage: this.state.currentPage - 1
+            });
+        }
+    };
+
+    lastPage = () => {
+        if (this.state.currentPage < Math.ceil(this.state.spares.length / this.state.entriesPerPage)) {
+            this.setState({
+                currentPage: Math.ceil(this.state.spares.length / this.state.entriesPerPage)
+            });
+        }
+    };
+
+    nextPage = () => {
+        if (this.state.currentPage < Math.ceil(this.state.spares.length / this.state.entriesPerPage)) {
+            this.setState({
+                currentPage: this.state.currentPage + 1
+            });
+        }
+    };
   
   handleChange = event =>{
     this.setState({
       [event.target.name] : event.target.value
-    }, () => console.log(this.state.category));
+    }, () => this.refreshSpares());
   };
   
 
-    render() { 
+  render() {
+      const { currentPage, entriesPerPage, spares, search } = this.state;
+      const lastIndex = currentPage * entriesPerPage;
+      const firstIndex = lastIndex - entriesPerPage;
+      const currentEntries = spares.slice(firstIndex, lastIndex);
+      const totalPages = spares.length / entriesPerPage;
+
+      const pageNumCss = {
+            width: "45px",
+            color: "black",
+            textAlign: "center",
+            fontWeight: "bold",
+            backgroundColor: "white",
+            borderColor: "black"
+        }
+
+        const searchBox = {
+            width: "250px",
+            fontWeight: "bold",
+            borderTop: "none",
+            borderLeft: "none",
+            borderRight: "none",
+            borderColor: "#000"
+        }
         return (
           <div>
+            <div className="spare-banner">
+              <h1>Genuine Spare Parts...</h1>
+            </div>
               <Row>
                 <Col md={3}>
                     <div>
@@ -55,7 +141,53 @@ class SparePart extends Component {
                       </div>
                     </div>
                 </Col>
-                <Col md={9}></Col>
+              <Col md={9}>
+                <Container>
+                  <Card className={""} style={{ backgroundColor: "white", border: "none",  marginRight: "50px", marginTop: "30px", marginBottom: "30px" }}>
+                        <Card.Header style={{ backgroundColor: "white", border: "none" }}>
+                            <div style={{ float: "right" }}>
+                                <InputGroup size="sm">
+                                    <FontAwesomeIcon style={{ marginTop: "8px" }} icon={faSearch} />&nbsp; <FormControl onChange={this.handleChange} style={searchBox} autoComplete="off" placeholder="start typing..." name="search" value={this.state.search} className="" />&nbsp;
+                                </InputGroup>
+                            </div>
+                    </Card.Header>
+                    <Card.Body style={{ backgroundColor: "white", border: "none" }}>
+                      {this.state.spares.length === 0 ? <p style={{textAlign: "center"}}>No Results Found</p>
+                        :
+                        currentEntries.map((spare) => (
+                          <SparePartCard id={spare.id} img={spare.img1} title={spare.title} price={spare.price} location={spare.location} date={spare.date} />
+                        ))
+                        }
+                    </Card.Body>
+                    <Card.Footer style={{ backgroundColor: "white", color: "black", border: "none" }}>
+                            <div style={{ float: "left" }}>
+                                Showing Page {currentPage} of {Math.ceil(totalPages)}
+                            </div>
+                            <div style={{ float: "right" }}>
+                                <InputGroup size="sm">
+                                    <InputGroup.Prepend>
+                                        <Button type="button" variant="outline-dark" disabled={currentPage === 1 ? true : false} onClick={this.firstPage}>
+                                            <FontAwesomeIcon icon={faFastBackward} /> First
+                                        </Button>
+                                        <Button type="button" variant="outline-dark" disabled={currentPage === 1 ? true : false} onClick={this.prevPage}>
+                                            <FontAwesomeIcon icon={faStepBackward} /> Prev
+                                        </Button>
+                                    </InputGroup.Prepend>
+                                    <FormControl style={pageNumCss} className="" name="currentPage" value={currentPage} disabled />
+                                    <InputGroup.Append>
+                                        <Button type="button" variant="outline-dark" disabled={currentPage === totalPages ? true : false} onClick={this.nextPage}>
+                                            Next <FontAwesomeIcon icon={faStepForward} />
+                                        </Button>
+                                        <Button type="button" variant="outline-dark" disabled={currentPage === totalPages ? true : false} onClick={this.lastPage}>
+                                            Last <FontAwesomeIcon icon={faFastForward} />
+                                        </Button>
+                                    </InputGroup.Append>
+                                </InputGroup>
+                            </div>
+                    </Card.Footer>
+                  </Card>
+                </Container>
+              </Col>
               </Row>
           </div>
         );
