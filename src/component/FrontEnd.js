@@ -6,6 +6,7 @@ import Home from './Home/Home';
 import Login from './Login/Login';
 import NotFoundError from './NotFoundError/NotFoundError';
 import AddSparePart from './SpareParts/AddSparePart/AddSparePart';
+import SparePartCard from './SpareParts/SparePartCard/SparePartCard';
 import ServiceDetail from './VehicleService/ServiceDetail';
 import AddService from './VehicleService/ServiceRegistration/AddService';
 import SparePart from './SpareParts/SpareParts';
