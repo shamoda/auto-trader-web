@@ -5,6 +5,7 @@ import Header from './Header-Footer/Header';
 import Home from './Home/Home';
 import Login from './Login/Login';
 import NotFoundError from './NotFoundError/NotFoundError';
+import UserRegistration from './UserRegistration/UserRegistration';
 import AddSparePart from './SpareParts/AddSparePart/AddSparePart';
 import SparePartCard from './SpareParts/SparePartCard/SparePartCard';
 import ServiceDetail from './VehicleService/ServiceDetail';
@@ -26,6 +27,7 @@ class FrontEnd extends Component {
             <Route path="/services" component={Services} />
             <Route path="/addService" component={AddService} />
             <Route path="/spareparts" component={SparePart} />
+            <Route path="/registration" component={UserRegistration}/>
             <Route path="/test" component={AddSparePart} />
             <Route component={NotFoundError} />
           </Switch>
