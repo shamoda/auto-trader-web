@@ -1,0 +1,14 @@
+.sparepart-sidenave-item:hover {
+    background-color: whitesmoke !important;
+    color: white !important;
+}
+
+.spare-banner {
+    background-image: url("../../asset/banner.jpg");
+    background-color: #cccccc;
+    height: 250px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 70px 70px;
+    color: white;
+}
