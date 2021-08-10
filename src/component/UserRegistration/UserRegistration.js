@@ -116,13 +116,13 @@ export default class UserRegistration extends Component {
 
             <Row classname="userregistration-form-row" >
               <Col>
-                <Form.Group controlId="contact" className="userregistration-form-input">
+                <Form.Group controlId="contact" className="userregistration-form-group">
                   <Form.Label>Contact Number</Form.Label>
                   <Form.Control onChange={this.handleChange} name="contact" value={this.state.contact} type="number" placeholder="07XXXXXXXX" className="userregistration-form-input"/>
                 </Form.Group>
               </Col>
               <Col>
-                <Form.Group controlId="location" className="attendeeregistration-form-group">
+                <Form.Group controlId="location" className="userregistration-form-group">
                   <Form.Label>Location</Form.Label>
                     <Form.Control onChange={this.handleChange} name="location" value={this.state.location} type="text" as="select" className="userregistration-form-input" >
                       <option value="">- select -</option>

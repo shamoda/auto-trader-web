@@ -6,7 +6,7 @@ import Home from './Home/Home';
 import Login from './Login/Login';
 import NotFoundError from './NotFoundError/NotFoundError';
 import UserRegistration from './UserRegistration/UserRegistration';
-import UserRegistrationDataService from './UserRegistration/UserRegistrationDataService';
+import MyAccount from './MyAccount/MyAccount';
 
 class FrontEnd extends Component {
     state = {  }
@@ -19,6 +19,7 @@ class FrontEnd extends Component {
                         <Route path="/" exact component={Home} />
                         <Route path="/login" component={Login} />
                         {/* <Route path="/test" component={YourComponent} /> */}
+                        <Route path="/account" component={MyAccount}/>
                         <Route path="/registration" component={UserRegistration}/>
                         <Route component={NotFoundError} />
                     </Switch>
