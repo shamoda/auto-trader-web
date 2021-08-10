@@ -30,7 +30,7 @@ class SparePart extends Component {
         let example = {
           title: this.state.search,
           category: this.state.category,
-          status: "pending"
+          status: "approved"
         }
         SparePartDataService.getSpares(example)
             .then(response => {
@@ -40,6 +40,10 @@ class SparePart extends Component {
   
   componentDidMount() {
         this.refreshSpares()
+  }
+
+  clicked = (id) => {
+        return this.props.history.push('/sparepart/' + id);
   }
 
   firstPage = () => {
@@ -155,7 +159,7 @@ class SparePart extends Component {
                       {this.state.spares.length === 0 ? <p style={{textAlign: "center"}}>No Results Found</p>
                         :
                         currentEntries.map((spare) => (
-                          <SparePartCard id={spare.id} img={spare.img1} title={spare.title} price={spare.price} location={spare.location} date={spare.date} />
+                          <SparePartCard id={spare.id} img={spare.img1} title={spare.title} price={spare.price} location={spare.location} date={spare.date} clicked={this.clicked} />
                         ))
                         }
                     </Card.Body>

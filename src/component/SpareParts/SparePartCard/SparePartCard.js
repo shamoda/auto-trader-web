@@ -8,12 +8,16 @@ class SparePartCard extends Component {
         this.state = {
         }
 
-        // this.refreshUsers = this.refreshUsers.bind(this);
+        this.cardClicked = this.cardClicked.bind(this);
+    }
+
+    cardClicked(id) {
+        return this.props.clicked(id);
     }
 
     render() { 
         return (
-            <Card onClick={() => alert(this.props.id)} className="shadow card-hover">
+            <Card onClick={() => this.cardClicked(this.props.id)} className="shadow card-hover">
                 <Row>
                     <Col md={3} style={{padding: "40px"}}>
                         <Image src={"https://auto-trader-spare.s3.amazonaws.com/"+this.props.img} rounded fluid />
