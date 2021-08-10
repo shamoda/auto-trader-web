@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Image, Nav, Navbar } from 'react-bootstrap';
+import { Image, Nav, Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import logo from '../../asset/logo.png'
 import Authentication from '../../authentication/Authentication';
@@ -22,7 +22,7 @@ class Header extends Component {
                     <NavLink className="nav-link header-item" to="/admin">Admin</NavLink>
                     <NavLink className="nav-link header-item" to="/login">Login</NavLink>
                     <NavLink className="nav-link header-item" to="/register">Join</NavLink>
-                    <NavLink className="nav-link header-item" onClick={() => Authentication.logout()} to="/">Logout</NavLink>
+                    <NavLink className="nav-link header-item" onClick={() => Authentication.logout()} to="#">Logout</NavLink>
                     </Nav>
                     {/* </Container> */}
                 </Navbar>
