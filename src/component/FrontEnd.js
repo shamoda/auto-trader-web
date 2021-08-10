@@ -13,6 +13,7 @@ import ServiceDetail from './VehicleService/ServiceDetail';
 import AddService from './VehicleService/ServiceRegistration/AddService';
 import SparePart from './SpareParts/SpareParts';
 import Services from './VehicleService/Services';
+import MyAccount from './MyAccount/MyAccount';
 
 class FrontEnd extends Component {
   state = {};
@@ -31,6 +32,7 @@ class FrontEnd extends Component {
             <Route path="/addspare" component={AddSparePart} />
             <Route path="/sparepart/:id" component={DetailedView} />
             <Route path="/registration" component={UserRegistration}/>
+            <Route path="/account" component={MyAccount}/>
             <Route component={NotFoundError} />
           </Switch>
           <Footer />

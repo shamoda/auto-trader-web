@@ -44,6 +44,18 @@ class Athentication {
         return name;
     }
 
+    loggedUserContact() {
+        let contact = sessionStorage.getItem('authenticatedUserContact');
+        if (contact === null) return '';
+        return contact;
+    }
+
+    loggedUserLocation() {
+        let location = sessionStorage.getItem('authenticatedUserLocation');
+        if (location === null) return '';
+        return location;
+    }
+
     loggedUserRole() {
         let role = sessionStorage.getItem('authenticatedUserRole');
         if (role != null) return role;
@@ -85,6 +97,7 @@ class Athentication {
         if (role != null && role === 'admin') return true;
         return false;
     }
+
 
     setupAxiosInterceptors(basicAuthHeader) {
         this.id = axios.interceptors.request.use(
