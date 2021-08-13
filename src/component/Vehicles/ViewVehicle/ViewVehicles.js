@@ -1,7 +1,8 @@
-import { faFastBackward, faFastForward, faSearch, faStepBackward, faStepForward, faUsersCog } from '@fortawesome/free-solid-svg-icons';
+import { faFastBackward, faFastForward, faSearch, faStepBackward, faStepForward } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Component } from 'react';
-import { Badge, Button, Card, Col, Container, Form, FormControl, Image, InputGroup, ListGroup, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, FormControl, InputGroup, Row } from 'react-bootstrap';
+
 import VehicleCard from '../Components/VehicleCard';
 import '../Components/VehicleCard.css';
 import ViewVehicleDataService from "./ViewVehiclesDataService";
@@ -40,7 +41,7 @@ class Vehicle extends Component {
         this.loadVehicles()
     }
 
-    onClickVehicle = (id) => {
+    CardClick = (id) => {
         return this.props.history.push('/vehicle/' + id);
     }
 
@@ -154,7 +155,7 @@ class Vehicle extends Component {
                                     {this.state.vehicles.length === 0 ? <p style={{textAlign: "center"}}>No Results Found</p>
                                         :
                                         currentEntries.map((vehicle) => (
-                                            <VehicleCard id={vehicle.id} img={vehicle.img1} model={vehicle.model} price={vehicle.price} location={vehicle.location} date={vehicle.date} onClickVehicle={this.onClickVehicle}/>
+                                            <VehicleCard id={vehicle.id} img={vehicle.img1} model={vehicle.model} price={vehicle.price} location={vehicle.location} date={vehicle.date} CardClick={this.CardClick}/>
                                         ))
                                     }
                                 </Card.Body>

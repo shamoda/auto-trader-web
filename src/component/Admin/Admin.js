@@ -2,15 +2,21 @@ import React, { Component } from 'react';
 import { Col, Container, Nav, Row, Tab, Tabs } from 'react-bootstrap';
 import AdminSparePartsList from '../SpareParts/AdminSparePartsList/AdminSparePartsList';
 import './Admin.css'
+import AdminVehicleList from "../Vehicles/AdminVehicleList/AdminVehicleList";
 
 class Admin extends Component {
     state = {}
-    
+
+    CardClick = (id) => {
+        return this.state.history.push('/vehicle/' + id);
+    }
+
     clicked = (id) => {
         return this.props.history.push('/sparepart/' + id);
     }
 
-    render() { 
+
+    render() {
         return (
             <div>
                 <div className="program-title">
@@ -44,7 +50,7 @@ class Admin extends Component {
                                     <Tab.Content>
                                         <Tab.Pane eventKey="first">
                                             <div>
-                                                Vehicle Component will Rendered Here
+                                                <AdminVehicleList CardClick={this.CardClick}/>
                                             </div>
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="second">
@@ -79,5 +85,5 @@ class Admin extends Component {
          );
     }
 }
- 
+
 export default Admin;

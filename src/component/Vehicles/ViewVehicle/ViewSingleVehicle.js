@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Badge, Button, Carousel, Col, Container, Form, Image, Modal, Row, Spinner } from 'react-bootstrap';
-import ViewSingleVehicleDataService from "./ViewSingleVehicleDataService";
-import './VehicleDetailedView.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import swal from 'sweetalert';
+
+import ViewSingleVehicleDataService from "./ViewSingleVehicleDataService";
 import Authentication from '../../../authentication/Authentication';
+import './VehicleDetailedView.css'
 
 class VehicleDetailedView extends Component {
     constructor(props){
@@ -105,7 +106,7 @@ class VehicleDetailedView extends Component {
     ClickDelete() {
         swal({
             title: "You are about to delete,",
-            text: this.state.title,
+            text: this.state.model,
             icon: "warning",
             buttons: true
         }).then((result) => {
