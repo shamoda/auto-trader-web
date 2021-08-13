@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import Admin from './Admin/Admin';
 import Footer from './Header-Footer/Footer';
 import Header from './Header-Footer/Header';
 import Home from './Home/Home';
 import Login from './Login/Login';
 import NotFoundError from './NotFoundError/NotFoundError';
 import AddSparePart from './SpareParts/AddSparePart/AddSparePart';
+import AdminSparePartsList from './SpareParts/AdminSparePartsList/AdminSparePartsList';
 import DetailedView from './SpareParts/DetailedView/DetailedView';
 import SparePartCard from './SpareParts/SparePartCard/SparePartCard';
 import SparePart from './SpareParts/SpareParts';
@@ -27,6 +29,7 @@ class FrontEnd extends Component {
             <Route path="/spareparts" component={SparePart} />
             <Route path="/addspare" component={AddSparePart} />
             <Route path="/sparepart/:id" component={DetailedView} />
+            <Route path="/admin" component={Admin} />
             <Route component={NotFoundError} />
           </Switch>
           <Footer />
