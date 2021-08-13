@@ -8,7 +8,7 @@ class Admin extends Component {
     state = {}
 
     CardClick = (id) => {
-        return this.state.history.push('/vehicle/' + id);
+        return this.props.history.push('/vehicle/' + id);
     }
 
     clicked = (id) => {

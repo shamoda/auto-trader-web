@@ -11,7 +11,7 @@ class VehicleCard extends Component {
     }
 
     CardClick(id) {
-        return this.props.onClickVehicle(id);
+        return this.props.CardClick(id);
     }
 
     render() {

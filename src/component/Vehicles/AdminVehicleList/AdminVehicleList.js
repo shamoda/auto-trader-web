@@ -130,7 +130,7 @@ class AdminVehicleList extends Component {
                                             </Form.Group>
                                         </Col>
                                         <Col>
-                                            <FontAwesomeIcon style={{ marginTop: "8px" }} icon={faFilePdf} />&nbsp; <a href="#" style={{padding: "0px", margin: "0px", textDecoration: "none", color: "black"}}>Get latest 100 Vehicle listings</a>
+                                            <FontAwesomeIcon style={{ marginTop: "8px", marginLeft: "-60px" }} icon={faFilePdf} />&nbsp; <a href="#" style={{padding: "0px", margin: "0px", textDecoration: "none", color: "black"}}>Get latest 100 Vehicle listings</a>
                                         </Col>
                                         <Col>
                                             <InputGroup size="sm">
