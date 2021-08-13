@@ -18,7 +18,7 @@ class Header extends Component {
                     <NavLink className="nav-link header-item" to="/vehicles">Vehicles</NavLink>
                     <NavLink className="nav-link header-item" to="/spareparts">Spare Parts</NavLink>
                     <NavLink className="nav-link header-item" to="/services">Services</NavLink>
-                    <NavLink className="nav-link header-item" to="/dashboard">Dashboard</NavLink>
+                    <NavLink className="nav-link header-item" to="/seller">Seller</NavLink>
                     <NavLink className="nav-link header-item" to="/admin">Admin</NavLink>
                     <NavLink className="nav-link header-item" to="/login">Login</NavLink>
                     <NavLink className="nav-link header-item" to="/register">Join</NavLink>

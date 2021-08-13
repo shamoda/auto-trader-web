@@ -6,8 +6,9 @@ import Header from './Header-Footer/Header';
 import Home from './Home/Home';
 import Login from './Login/Login';
 import NotFoundError from './NotFoundError/NotFoundError';
+import Seller from './Seller/Seller';
 import AddSparePart from './SpareParts/AddSparePart/AddSparePart';
-import AdminSparePartsList from './SpareParts/AdminSparePartsList/AdminSparePartsList';
+import SellerSparePartsList from './SpareParts/SellerSparePartsList/SellerSparePartsList';
 import DetailedView from './SpareParts/DetailedView/DetailedView';
 import SparePartCard from './SpareParts/SparePartCard/SparePartCard';
 import SparePart from './SpareParts/SpareParts';
@@ -27,9 +28,11 @@ class FrontEnd extends Component {
             <Route path="/services" component={Services} />
             {/*<Route path="/addService" component={AddService} />*/}
             <Route path="/spareparts" component={SparePart} />
+            <Route path="/addspare/:id" component={AddSparePart} />
             <Route path="/addspare" component={AddSparePart} />
             <Route path="/sparepart/:id" component={DetailedView} />
             <Route path="/admin" component={Admin} />
+            <Route path="/seller" component={Seller} />
             <Route component={NotFoundError} />
           </Switch>
           <Footer />

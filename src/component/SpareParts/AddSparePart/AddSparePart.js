@@ -8,7 +8,8 @@ import './AddSparePart.css'
 class AddSparePart extends Component {
      constructor(props){
         super(props);
-        this.state = { 
+         this.state = {
+            id: this.props.match.params.id,
             seller: Authentication.loggedUserName(),
             contact: Authentication.loggedUserContact(),
             email: Authentication.loggedUserId(),
@@ -19,6 +20,7 @@ class AddSparePart extends Component {
             type: '',
             category: '',
             additionalInfo: '',
+            date: '',
 
             img1: null,
             img1Url: null,
@@ -40,10 +42,51 @@ class AddSparePart extends Component {
          }
 
         this.addSparePart = this.addSparePart.bind(this);
-        // this.displayError = this.displayError.bind(this);
+        this.updateSparePart = this.updateSparePart.bind(this);
+        this.deleteSparePart = this.deleteSparePart.bind(this);
         this.img1Change = this.img1Change.bind(this);
         this.img2Change = this.img2Change.bind(this);
         this.img3Change = this.img3Change.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.state.id != null) {
+            AddSparePartDataService.getSparePart(this.state.id)
+                .then(res => {
+                    this.setState({
+                        id: res.data.id,
+                        seller: res.data.seller,
+                        contact: res.data.contact,
+                        email: res.data.email,
+                        location: res.data.location,
+                        title: res.data.title,
+                        price: res.data.price,
+                        condition: res.data.condition,
+                        type: res.data.type,
+                        category: res.data.category,
+                        additionalInfo: res.data.additionalInfo,
+                        img1Url: "https://auto-trader-spare.s3.amazonaws.com/"+res.data.img1,
+                        img2Url: "https://auto-trader-spare.s3.amazonaws.com/"+res.data.img2,
+                        img3Url: "https://auto-trader-spare.s3.amazonaws.com/"+res.data.img3
+                    }, () => {
+                        if (res.data.img1 != null) {
+                        this.setState({
+                            img1Selected: true
+                        })
+                        }
+                        if (res.data.img2 != null) {
+                        this.setState({
+                            img2Selected: true
+                        })
+                        }
+                        if (res.data.img3 != null) {
+                        this.setState({
+                            img3Selected: true
+                        })
+                        }
+                    })
+            })
+        }
     }
 
 
@@ -94,12 +137,12 @@ class AddSparePart extends Component {
                 .then(res => {
                     this.setState({ loading: false })
                     swal({
-                        title: "You Have Successfully Listed Your Item",
-                        text: "Your listing is under review. We will notify about it's status within 48 hours.",
+                        title: "Successfully Listed Your Item",
+                        text: "Submission under review",
                         icon: "success",
                         button: "Ok",
                       }).then(result => {
-                        return this.props.history.push('/dashboard')
+                        return this.props.history.push('/seller')
                       })
                 })
                 .catch( error => {
@@ -113,6 +156,97 @@ class AddSparePart extends Component {
                 })
         }
     }
+
+
+    updateSparePart(event) {
+        event.preventDefault();
+
+        if (this.state.seller === '') {
+            this.displayError('Name cannot be empty')
+        } else if (this.state.contact === '') {
+            this.displayError('Contact cannot be empty')
+        } else if (this.state.location === '') {
+            this.displayError('Location cannot be empty')
+        } else if (this.state.title === '') {
+            this.displayError('Title cannot be empty')
+        } else if (this.state.price === '') {
+            this.displayError('Price cannot be empty')
+        } else if (this.state.condition === '') {
+            this.displayError('Condition cannot be empty')
+        } else if (this.state.type === '') {
+            this.displayError('Type cannot be empty')
+        } else if (this.state.category === '') {
+            this.displayError('Category cannot be empty')
+        }  else if (this.state.img1 == null) {
+            this.displayError('Main Image cannot be empty')
+        } else {
+            this.setState({ loading: true })
+            
+            let formData = new FormData();
+            formData.append('id', this.state.id);
+            formData.append('email', this.state.email);
+            formData.append('contact', this.state.contact);
+            formData.append('seller', this.state.seller);
+            formData.append('location', this.state.location);
+            formData.append('date', this.state.date);
+            formData.append('title', this.state.title);
+            formData.append('price', this.state.price);
+            formData.append('condition', this.state.condition);
+            formData.append('type', this.state.type);
+            formData.append('category', this.state.category);
+            formData.append('additionalInfo', this.state.additionalInfo);
+            formData.append('img1', this.state.img1);
+            if (this.state.img2 != null) {
+                formData.append('img2', this.state.img2);
+            }
+            if (this.state.img3 != null) {
+                formData.append('img3', this.state.img3);
+            }
+
+            AddSparePartDataService.updateSparePart(formData)
+                .then(res => {
+                    this.setState({ loading: false })
+                    swal({
+                        title: "Successfully Updated",
+                        text: "Submission under review",
+                        icon: "success",
+                        button: "Ok",
+                      }).then(result => {
+                        return this.props.history.push('/seller')
+                      })
+                })
+                .catch( error => {
+                    this.setState({loading: false})
+                    swal({
+                        title: "Oops!",
+                        text: "Something went wrong. Please try again.",
+                        icon: "error",
+                        button: "Ok",
+                      })
+                })
+        }
+    }
+
+
+    deleteSparePart() {
+        swal({
+            title: "You are about to delete,",
+            text: this.state.title,
+            icon: "warning",
+            buttons: true
+        }).then((result) => {
+            if ((result)) {
+                this.setState({loading: true})
+                AddSparePartDataService.deleteSparePart(this.state.id)
+                    .then(res => {
+                        this.setState({loading: false})
+                        return this.props.history.push('/seller');
+                })
+            }
+        })
+    }
+
+
 
     displayError(msg) {
         swal({
@@ -172,7 +306,7 @@ class AddSparePart extends Component {
                 <Container>
                     <div style={{ fontWeight: 600, fontSize: "25px", marginBottom: "20px" }}>Verify Contact Details</div>
 
-                    <Form autoComplete="off" onSubmit={this.addSparePart}>
+                    <Form autoComplete="off" >
                         <Form.Group controlId="seller" className="attendeeregistration-form-group">
                             <Form.Label>Your Name</Form.Label>
                             <Form.Control onChange={this.handleChange} name="seller" value={this.state.seller} type="text" placeholder="your name" className="paperregistration-form-input" />
@@ -311,7 +445,9 @@ class AddSparePart extends Component {
                             </Col>
                         </Row>
 
-                        <Button type="submit" variant="dark" className="attendeeregistration-button" >Submit</Button>
+                        {!this.state.id && <Button onClick={this.addSparePart} variant="dark" className="attendeeregistration-button" >Submit</Button>}
+                        {this.state.id && <Button onClick={this.updateSparePart} variant="dark" className="attendeeregistration-button" >Update</Button>}
+                        {this.state.id && <Button onClick={this.deleteSparePart} variant="danger" className="delete-button" >Delete</Button>}
                         {this.state.error && <p className="attendeeregistration-error">{this.state.error}</p>}
 
                     </Form>
