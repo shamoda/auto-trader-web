@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import Admin from './Admin/Admin';
 import Footer from './Header-Footer/Footer';
 import Header from './Header-Footer/Header';
 import Home from './Home/Home';
 import Login from './Login/Login';
 import NotFoundError from './NotFoundError/NotFoundError';
-import UserRegistration from './UserRegistration/UserRegistration';
 import AddSparePart from './SpareParts/AddSparePart/AddSparePart';
-import AdminSparePartsList from './SpareParts/AdminSparePartsList/AdminSparePartsList';
-import DetailedView from './SpareParts/DetailedView/DetailedView';
 import SparePartCard from './SpareParts/SparePartCard/SparePartCard';
 import ServiceDetail from './VehicleService/ServiceDetail';
 import AddService from './VehicleService/ServiceRegistration/AddService';
 import SparePart from './SpareParts/SpareParts';
 import Services from './VehicleService/Services';
-import MyAccount from './MyAccount/MyAccount';
+import AddVehicle from "./Vehicles/Vehicle/AddVehicle";
+import Vehicle from "./Vehicles/ViewVehicle/ViewVehicles";
+import VehicleDetailedView from "./Vehicles/ViewVehicle/ViewSingleVehicle";
 
 class FrontEnd extends Component {
   state = {};
@@ -31,11 +29,10 @@ class FrontEnd extends Component {
             <Route path="/services" component={Services} />
             <Route path="/addService" component={AddService} />
             <Route path="/spareparts" component={SparePart} />
-            <Route path="/addspare" component={AddSparePart} />
-            <Route path="/sparepart/:id" component={DetailedView} />
-            <Route path="/admin" component={Admin} />
-            <Route path="/registration" component={UserRegistration}/>
-            <Route path="/account" component={MyAccount}/>
+            <Route path="/test" component={AddSparePart} />
+            <Route path="/addvehicle" component={AddVehicle} />
+            <Route path="/vehicles" component={Vehicle}/>
+            <Route path="/vehicle/:id" component={VehicleDetailedView}/>
             <Route component={NotFoundError} />
           </Switch>
           <Footer />
@@ -44,5 +41,5 @@ class FrontEnd extends Component {
     );
   }
 }
- 
+
 export default FrontEnd;
