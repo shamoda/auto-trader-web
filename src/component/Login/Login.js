@@ -47,11 +47,11 @@ class Login extends Component {
                     Authentication.successfulLogin(response.data, basicAuthHeader)
 
                     if (Authentication.loggedAsSeller()) {
-                        this.props.history.push('/dashboard');
+                        this.props.history.push('/seller');
                     } else if (Authentication.loggedAsBuyer()) {
-                        this.props.history.push('/dashboard');
+                        this.props.history.push('/seller');
                     } else if (Authentication.loggedAsOrganization()) {
-                        this.props.history.push('/dashboard');
+                        this.props.history.push('/seller');
                     } else if (Authentication.loggedAsAdmin()) {
                         this.props.history.push('/admin');
                     } else {

@@ -6,9 +6,10 @@ import Header from './Header-Footer/Header';
 import Home from './Home/Home';
 import Login from './Login/Login';
 import NotFoundError from './NotFoundError/NotFoundError';
+import Seller from './Seller/Seller';
 import UserRegistration from './UserRegistration/UserRegistration';
 import AddSparePart from './SpareParts/AddSparePart/AddSparePart';
-import AdminSparePartsList from './SpareParts/AdminSparePartsList/AdminSparePartsList';
+import SellerSparePartsList from './SpareParts/SellerSparePartsList/SellerSparePartsList';
 import DetailedView from './SpareParts/DetailedView/DetailedView';
 import SparePartCard from './SpareParts/SparePartCard/SparePartCard';
 import ServiceDetail from './VehicleService/ServiceDetail';
@@ -19,7 +20,7 @@ import MyAccount from './MyAccount/MyAccount';
 import AddVehicle from "./Vehicles/Vehicle/AddVehicle";
 import Vehicle from "./Vehicles/ViewVehicle/ViewVehicles";
 import VehicleDetailedView from "./Vehicles/ViewVehicle/ViewSingleVehicle";
-
+import HomeSpare from './Home/HomeSpare/HomeSpare';
 
 class FrontEnd extends Component {
   state = {};
@@ -35,14 +36,18 @@ class FrontEnd extends Component {
             <Route path="/services" component={Services} />
             <Route path="/addService" component={AddService} />
             <Route path="/spareparts" component={SparePart} />
+            <Route path="/addspare/:id" component={AddSparePart} />
             <Route path="/addspare" component={AddSparePart} />
             <Route path="/sparepart/:id" component={DetailedView} />
             <Route path="/admin" component={Admin} />
+            <Route path="/seller" component={Seller} />
             <Route path="/registration" component={UserRegistration}/>
             <Route path="/account" component={MyAccount}/>
             <Route path="/addvehicle" component={AddVehicle} />
             <Route path="/vehicles" component={Vehicle}/>
             <Route path="/vehicle/:id" component={VehicleDetailedView}/>
+            <Route path="/account" component={MyAccount} />
+            <Route path="/test" component={HomeSpare}/>
             <Route component={NotFoundError} />
           </Switch>
           <Footer />
