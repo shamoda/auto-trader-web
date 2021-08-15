@@ -17,6 +17,9 @@ import AddService from './VehicleService/ServiceRegistration/AddService';
 import SparePart from './SpareParts/SpareParts';
 import Services from './VehicleService/Services';
 import MyAccount from './MyAccount/MyAccount';
+import AddVehicle from "./Vehicles/Vehicle/AddVehicle";
+import Vehicle from "./Vehicles/ViewVehicle/ViewVehicles";
+import VehicleDetailedView from "./Vehicles/ViewVehicle/ViewSingleVehicle";
 import HomeSpare from './Home/HomeSpare/HomeSpare';
 
 class FrontEnd extends Component {
@@ -39,6 +42,10 @@ class FrontEnd extends Component {
             <Route path="/admin" component={Admin} />
             <Route path="/seller" component={Seller} />
             <Route path="/registration" component={UserRegistration}/>
+            <Route path="/account" component={MyAccount}/>
+            <Route path="/addvehicle" component={AddVehicle} />
+            <Route path="/vehicles" component={Vehicle}/>
+            <Route path="/vehicle/:id" component={VehicleDetailedView}/>
             <Route path="/account" component={MyAccount} />
             <Route path="/test" component={HomeSpare}/>
             <Route component={NotFoundError} />
@@ -49,5 +56,5 @@ class FrontEnd extends Component {
     );
   }
 }
- 
+
 export default FrontEnd;
