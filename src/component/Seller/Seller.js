@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Container, Nav, Row, Tab, Tabs } from 'react-bootstrap';
+import { Button, Col, Container, Nav, Row, Tab, Tabs } from 'react-bootstrap';
 import SellerSparePartsList from '../SpareParts/SellerSparePartsList/SellerSparePartsList';
 import './Seller.css'
 
@@ -16,9 +16,17 @@ class Seller extends Component {
                 <div className="program-title">
                     Seller PORTAL
                 </div>
-                {/* <AdminStatistics /> */}
+                <div style={{ textAlign: "center" }}>
+                    <Container>
+                        <h3 style={{ color: "red", padding: "20px" }}>It's Free!!! List Your,</h3>
+                        <Button variant="outline-primary" style={{marginLeft: "20px", marginRight: "20px", marginBottom: "30px"}}>Vehicles</Button>
+                        <Button onClick={() => this.props.history.push('/addspare')} variant="outline-primary" style={{marginLeft: "20px", marginRight: "20px", marginBottom: "30px"}}>Spare Parts</Button>
+                        <Button variant="outline-primary" style={{marginLeft: "20px", marginRight: "20px", marginBottom: "30px"}}>Services</Button>
+                    </Container>
+                </div>
                 <div>
                     <Container className="admindash-container">
+                        <h3 style={{ marginBottom: "20px" }}>My Listings,</h3>
                         <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                             <Row>
                                 <Col sm={2}>

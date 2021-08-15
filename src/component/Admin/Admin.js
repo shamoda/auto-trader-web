@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Container, Nav, Row, Tab, Tabs } from 'react-bootstrap';
+import Analytics from '../Analytics/Analytics';
 import AdminSparePartsList from '../SpareParts/AdminSparePartsList/AdminSparePartsList';
 import './Admin.css'
 
@@ -16,7 +17,7 @@ class Admin extends Component {
                 <div className="program-title">
                     ADMIN PORTAL
                 </div>
-                {/* <AdminStatistics /> */}
+                <Analytics />
                 <div>
                     <Container className="admindash-container">
                         <Tab.Container id="left-tabs-example" defaultActiveKey="first">

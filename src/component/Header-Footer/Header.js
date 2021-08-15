@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Image, Nav, Navbar } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import logo from '../../asset/logo.png'
 import Authentication from '../../authentication/Authentication';
 
@@ -18,11 +18,11 @@ class Header extends Component {
                     <NavLink className="nav-link header-item" to="/vehicles">Vehicles</NavLink>
                     <NavLink className="nav-link header-item" to="/spareparts">Spare Parts</NavLink>
                     <NavLink className="nav-link header-item" to="/services">Services</NavLink>
-                    <NavLink className="nav-link header-item" to="/seller">Seller</NavLink>
-                    <NavLink className="nav-link header-item" to="/admin">Admin</NavLink>
-                    <NavLink className="nav-link header-item" to="/login">Login</NavLink>
-                    <NavLink className="nav-link header-item" to="/register">Join</NavLink>
-                    <NavLink className="nav-link header-item" onClick={() => Authentication.logout()} to="#">Logout</NavLink>
+                        {Authentication.loggedAsSeller() && <NavLink className="nav-link header-item" to="/seller">{ Authentication.loggedUserName() }</NavLink>}
+                    {Authentication.loggedAsAdmin() && <NavLink className="nav-link header-item" to="/admin">{ Authentication.loggedUserName() }</NavLink>}
+                    {!Authentication.isUserLoggedIn() && <NavLink className="nav-link header-item" to="/login">Login</NavLink>}
+                    {!Authentication.isUserLoggedIn() && <NavLink className="nav-link header-item" to="/registration">Join</NavLink>}
+                    {Authentication.isUserLoggedIn() && <NavLink className="nav-link header-item" onClick={() => Authentication.logout()} to="/">Logout</NavLink>}
                     </Nav>
                     {/* </Container> */}
                 </Navbar>
@@ -31,4 +31,4 @@ class Header extends Component {
     }
 }
  
-export default Header;
+export default withRouter(Header);
