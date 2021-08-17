@@ -1,29 +1,36 @@
 import React, { Component } from 'react';
-import { Col, Container, Nav, Row, Tab } from 'react-bootstrap';
-import HomeSpare from './HomeSpare/HomeSpare';
-import './Home.css'
+import { Button, Col, Container, Nav, Row, Tab, Tabs } from 'react-bootstrap';
+import SellerSparePartsList from '../SpareParts/SellerSparePartsList/SellerSparePartsList';
+import './Seller.css'
 
-class Home extends Component {
+class Seller extends Component {
+    state = {}
     
     clicked = (id) => {
-        return this.props.history.push('/sparepart/' + id);
+        return this.props.history.push('/addspare/' + id);
     }
-    
+
     render() { 
-        return ( 
+        return (
             <div>
-                <div className="spare-banner">
-                    <h1>Drop the Gear and Disappear...</h1>
+                <div className="program-title">
+                    Seller PORTAL
+                </div>
+                <div style={{ textAlign: "center" }}>
+                    <Container>
+                        <h3 style={{ color: "red", padding: "20px" }}>It's Free!!! List Your,</h3>
+                        <Button variant="outline-primary" style={{marginLeft: "20px", marginRight: "20px", marginBottom: "30px"}}>Vehicles</Button>
+                        <Button onClick={() => this.props.history.push('/addspare')} variant="outline-primary" style={{marginLeft: "20px", marginRight: "20px", marginBottom: "30px"}}>Spare Parts</Button>
+                        <Button variant="outline-primary" style={{marginLeft: "20px", marginRight: "20px", marginBottom: "30px"}}>Services</Button>
+                    </Container>
                 </div>
                 <div>
-                    {/* <Container className="admindash-container"> */}
+                    <Container className="admindash-container">
+                        <h3 style={{ marginBottom: "20px" }}>My Listings,</h3>
                         <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                             <Row>
-                                <Col sm={2} className="v-nav">
-                                <Nav variant="pills" className="flex-column">
-                                        <Nav.Item style={{color: "white", fontWeight: "600", background: "black"}}>
-                                            <Nav.Link style={{color: "white", fontWeight: "600", background: "black", fontSize: "18px"}}>I'm looking for,</Nav.Link>
-                                        </Nav.Item>
+                                <Col sm={2}>
+                                    <Nav variant="pills" className="flex-column">
                                         <Nav.Item>
                                             <Nav.Link eventKey="first">Vehicles</Nav.Link>
                                         </Nav.Item>
@@ -44,7 +51,7 @@ class Home extends Component {
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="second">
                                             <div>
-                                                <HomeSpare clicked={this.clicked} />
+                                                <SellerSparePartsList clicked={this.clicked} />
                                             </div>
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="third">
@@ -58,11 +65,11 @@ class Home extends Component {
                         </Tab.Container>
 
 
-                    {/* </Container> */}
+                    </Container>
                 </div>
             </div>
          );
     }
 }
  
-export default Home;
+export default Seller;
