@@ -21,6 +21,8 @@ import AddVehicle from "./Vehicles/Vehicle/AddVehicle";
 import Vehicle from "./Vehicles/ViewVehicle/ViewVehicles";
 import VehicleDetailedView from "./Vehicles/ViewVehicle/ViewSingleVehicle";
 import HomeSpare from './Home/HomeSpare/HomeSpare';
+import ManageUsers from './ManageUsers/ManageUsers';
+import Revenue from './Revenue/Revenue';
 
 class FrontEnd extends Component {
   state = {};
@@ -47,6 +49,8 @@ class FrontEnd extends Component {
             <Route path="/vehicles" component={Vehicle}/>
             <Route path="/vehicle/:id" component={VehicleDetailedView}/>
             <Route path="/account" component={MyAccount} />
+            <Route path="/revenue" component={Revenue}/>
+            <Route path="/usermanage" component={ManageUsers} />
             <Route path="/test" component={HomeSpare}/>
             <Route component={NotFoundError} />
           </Switch>
