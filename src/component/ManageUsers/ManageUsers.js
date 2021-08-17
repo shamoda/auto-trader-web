@@ -154,37 +154,40 @@ export default class ManageUsers extends Component {
                 </tbody>
               </Table>
             </Card.Body>
-            {/* <Card.Footer style={{ backgroundColor: "white", color: "black", border: "none" }}>
-                            <div style={{ float: "left" }}>
-                                Showing Page {currentPage} of {Math.ceil(totalPages)}
-                            </div>
-                            <div style={{ float: "right" }}>
-                                <InputGroup size="sm">
-                                    <InputGroup.Prepend>
-                                        <Button type="button" variant="outline-dark" disabled={currentPage === 1 ? true : false} onClick={this.firstPage}>
-                                            <FontAwesomeIcon icon={faFastBackward} /> First
-                                        </Button>
-                                        <Button type="button" variant="outline-dark" disabled={currentPage === 1 ? true : false} onClick={this.prevPage}>
-                                            <FontAwesomeIcon icon={faStepBackward} /> Prev
-                                        </Button>
-                                    </InputGroup.Prepend>
-                                    <FormControl style={pageNumCss} className="" name="currentPage" value={currentPage} disabled />
-                                    <InputGroup.Append>
-                                        <Button type="button" variant="outline-dark" disabled={currentPage === totalPages ? true : false} onClick={this.nextPage}>
-                                            Next <FontAwesomeIcon icon={faStepForward} />
-                                        </Button>
-                                        <Button type="button" variant="outline-dark" disabled={currentPage === totalPages ? true : false} onClick={this.lastPage}>
-                                            Last <FontAwesomeIcon icon={faFastForward} />
-                                        </Button>
-                                    </InputGroup.Append>
-                                </InputGroup>
-                            </div>
-                    </Card.Footer> */}
-                  
-            
-
+            <Card.Footer style={{ backgroundColor: "white", color: "black"}}>
+              <div style={{ float: "left"}}>
+                  Showing page {currentPage} of {Math.ceil(totalPages)}
+              </div>
+              <div style={{ float: "right"}}>
+                <InputGroup size="sm">
+                  <InputGroup.Prepend>
+                    <Button type="button" variant="outline-dark" disabled={currentPage === 1 ? true : false} onClick={this.firstPage}>
+                      <FontAwesomeIcon icon={faFastBackward} /> First
+                    </Button>
+                    <Button type="button" variant="outline-dark" disabled={currentPage === 1 ? true : false} onClick={this.prevPage}>
+                      <FontAwesomeIcon icon={faStepBackward} /> Prev
+                    </Button>
+                  </InputGroup.Prepend>
+                  <FormControl style={pageNumCss} className="" name="currentPage" value={currentPage} disabled />
+                  <InputGroup.Prepend>
+                    <Button type="button" variant="outline-dark" disabled={currentPage === totalPages ? true : false} onClick={this.nextPage}>
+                      Next <FontAwesomeIcon icon={faStepForward} />
+                    </Button>
+                    <Button type="button" variant="outline-dark" disabled={currentPage === totalPages ? true : false} onClick={this.lastPage}>
+                      Last <FontAwesomeIcon icon={faFastForward} />
+                    </Button>
+                  </InputGroup.Prepend>
+                </InputGroup>
+              </div>
+            </Card.Footer>
           </Card>
         </Container>
+
+        <Modal centered size="sm" show={this.state.loading} onHide={() => console.log('please wait...')}>
+          <Modal.Header>
+            <Modal.Title><Spinner animation="border" /> Please wait...</Modal.Title>
+          </Modal.Header>
+        </Modal>
         
       </div>
     )

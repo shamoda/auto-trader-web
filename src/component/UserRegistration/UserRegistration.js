@@ -156,12 +156,12 @@ export default class UserRegistration extends Component {
                             {this.state.error && <p className="userregistration-error">{this.state.error}</p>}
           </Form>
         </Container>
-{/* 
+
         <Modal centered size="sm" show={this.state.loading} onHide={() => console.log('please wait...')}>
-                    <Modal.Header>
-                    <Modal.Title><Spinner animation="border" /> Please wait...</Modal.Title>
-                    </Modal.Header>
-                </Modal> */}
+          <Modal.Header>
+            <Modal.Title><Spinner animation="border" /> Please wait...</Modal.Title>
+          </Modal.Header>
+        </Modal>
       </div>
     )
   }
