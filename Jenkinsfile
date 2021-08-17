@@ -4,7 +4,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building deployable artifact'
-                sh 'npm install; npm run build'
+                sh 'git clone https://github.com/shamoda/auto-trader-web; npm install; npm run build'
                 archiveArtifacts artifacts: 'build'
             }
         }
