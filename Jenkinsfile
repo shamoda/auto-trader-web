@@ -6,7 +6,8 @@ pipeline {
                 echo 'Building deployable artifact'
                 sh "npm install"
                 sh "npm run build"
-                archiveArtifacts artifacts: 'build/*'
+                sh "zip -r build.zip build/"
+                archiveArtifacts artifacts: 'build.zip'
             }
         }
     }
