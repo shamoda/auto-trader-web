@@ -27,20 +27,13 @@ pipeline {
                                     sshTransfer(
                                         sourceFiles: 'build.zip',
                                         remoteDirectory: '/tmp'
+                                        execCommand: 'rm -r /var/www/html/build; unzip /tmp/build.zip -d /var/www/html; rm /tmp/build.zip'
                                     )
                                 ]
                             )
                         ]
                     )
                 }
-            }
-        }
-        stage('DeployingToDevEnv') {
-            steps {
-                echo 'Moving artifact'
-                sh "sudo -S rm -r /var/www/html/build"
-                sh "unzip /tmp/build.zip -d /var/www/html"
-                sh "rm /tmp/build.zip"
             }
         }
     }
