@@ -27,7 +27,7 @@ pipeline {
                                     sshTransfer(
                                         sourceFiles: 'build.zip',
                                         remoteDirectory: '/tmp',
-                                        execCommand: 'rm -r /var/www/html/build; unzip /tmp/build.zip -d /var/www/html'
+                                        execCommand: 'sudo rm -r /var/www/html/build; sudo unzip /tmp/build.zip -d /var/www/html; sudo rm /tmp/build.zip'
                                     )
                                 ]
                             )
