@@ -10,7 +10,7 @@ pipeline {
                 archiveArtifacts artifacts: 'build.zip'
             }
         }
-        stage('DeployingToDevEnv') {
+        stage('FileTransfering') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     sshPublisher(
@@ -26,14 +26,21 @@ pipeline {
                                 transfers: [
                                     sshTransfer(
                                         sourceFiles: 'build.zip',
-                                        remoteDirectory: '/tmp',
-                                        execCommand: 'rm -r /var/www/html/*; unzip /tmp/build.zip -d /var/www/html; rm /tmp/build.zip'
+                                        remoteDirectory: '/tmp'
                                     )
                                 ]
                             )
                         ]
                     )
                 }
+            }
+        }
+        stage('DeployingToDevEnv') {
+            steps {
+                echo 'Moving artifact'
+                sh "rm -r /var/www/html/*"
+                sh "unzip /tmp/build.zip -d /var/www/html"
+                sh "rm /tmp/build.zip"
             }
         }
     }
