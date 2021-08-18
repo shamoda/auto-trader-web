@@ -38,7 +38,7 @@ pipeline {
         stage('DeployingToDevEnv') {
             steps {
                 echo 'Moving artifact'
-                sh "sudo rm -r /var/www/html/build"
+                sh "sudo -S rm -r /var/www/html/build"
                 sh "unzip /tmp/build.zip -d /var/www/html"
                 sh "rm /tmp/build.zip"
             }

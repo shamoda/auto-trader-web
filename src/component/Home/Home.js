@@ -13,7 +13,7 @@ class Home extends Component {
         return ( 
             <div>
                 <div className="spare-banner">
-                    <h1>updated</h1>
+                    <h1>Ooo yay</h1>
                 </div>
                 <div>
                     {/* <Container className="admindash-container"> */}
