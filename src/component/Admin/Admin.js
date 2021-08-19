@@ -4,6 +4,8 @@ import Analytics from '../Analytics/Analytics';
 import AdminSparePartsList from '../SpareParts/AdminSparePartsList/AdminSparePartsList';
 import './Admin.css'
 import AdminVehicleList from "../Vehicles/AdminVehicleList/AdminVehicleList";
+import Revenue from '../Revenue/Revenue';
+import ManageUsers from '../ManageUsers/ManageUsers';
 
 class Admin extends Component {
     state = {}
@@ -66,12 +68,12 @@ class Admin extends Component {
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="fourth">
                                             <div>
-                                                Users Component will Rendered Here
+                                                <ManageUsers />
                                             </div>
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="fifth">
                                             <div>
-                                                Revenue Report Component will Rendered Here
+                                                <Revenue />
                                             </div>
                                         </Tab.Pane>
                                     </Tab.Content>
