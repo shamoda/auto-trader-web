@@ -8,7 +8,7 @@ class ManageUsersDateService {
   }
 
   deleteUser(email){
-    return axios.post(HOST_URL+'/api/v1/user/${email}')
+    return axios.delete(HOST_URL+`/api/v1/user/${email}`)
   }
 
   
