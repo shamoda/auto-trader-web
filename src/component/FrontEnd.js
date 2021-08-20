@@ -23,6 +23,7 @@ import VehicleDetailedView from "./Vehicles/ViewVehicle/ViewSingleVehicle";
 import HomeSpare from './Home/HomeSpare/HomeSpare';
 import ManageUsers from './ManageUsers/ManageUsers';
 import Revenue from './Revenue/Revenue';
+import ChangePassword from "./ChangePassword/ChangePassword"
 
 class FrontEnd extends Component {
   state = {};
@@ -52,7 +53,8 @@ class FrontEnd extends Component {
             <Route path="/account" component={MyAccount} />
             <Route path="/revenue" component={Revenue}/>
             <Route path="/usermanage" component={ManageUsers} />
-            <Route path="/test" component={HomeSpare}/>
+            <Route path="/test" component={HomeSpare} />
+            <Route path="/changepassword" component={ChangePassword} />
             <Route component={NotFoundError} />
           </Switch>
           <Footer />
