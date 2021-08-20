@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import { Button, Col, Container, Nav, Row, Tab, Tabs } from 'react-bootstrap';
 import SellerSparePartsList from '../SpareParts/SellerSparePartsList/SellerSparePartsList';
 import './Seller.css'
+import SellerVehicleList from "../Vehicles/SellerVehicleList/SellerVehicleList";
 
 class Seller extends Component {
     state = {}
-    
+
     clicked = (id) => {
         return this.props.history.push('/addspare/' + id);
     }
 
-    render() { 
+    CardClick = (id) => {
+        return this.props.history.push('/addVehicle/' + id);
+    }
+
+    render() {
         return (
             <div>
                 <div className="program-title">
@@ -19,7 +24,7 @@ class Seller extends Component {
                 <div style={{ textAlign: "center" }}>
                     <Container>
                         <h3 style={{ color: "red", padding: "20px" }}>It's Free!!! List Your,</h3>
-                        <Button variant="outline-primary" style={{marginLeft: "20px", marginRight: "20px", marginBottom: "30px"}}>Vehicles</Button>
+                        <Button onClick={() => this.props.history.push('/addVehicle')} variant="outline-primary" style={{marginLeft: "20px", marginRight: "20px", marginBottom: "30px"}}>Vehicles</Button>
                         <Button onClick={() => this.props.history.push('/addspare')} variant="outline-primary" style={{marginLeft: "20px", marginRight: "20px", marginBottom: "30px"}}>Spare Parts</Button>
                         <Button variant="outline-primary" style={{marginLeft: "20px", marginRight: "20px", marginBottom: "30px"}}>Services</Button>
                     </Container>
@@ -46,7 +51,7 @@ class Seller extends Component {
                                     <Tab.Content>
                                         <Tab.Pane eventKey="first">
                                             <div>
-                                                Vehicle Component will Rendered Here
+                                                <SellerVehicleList CardClick={this.CardClick} />
                                             </div>
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="second">
@@ -71,5 +76,5 @@ class Seller extends Component {
          );
     }
 }
- 
+
 export default Seller;
