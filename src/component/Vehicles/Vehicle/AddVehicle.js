@@ -9,6 +9,7 @@ class AddVehicle extends Component {
     constructor(props){
         super(props);
         this.state = {
+            id: this.props.match.params.id,
             seller: Authentication.loggedUserName(),
             contact: Authentication.loggedUserContact(),
             email: Authentication.loggedUserId(),
@@ -49,10 +50,62 @@ class AddVehicle extends Component {
         }
 
         this.addVehicle = this.addVehicle.bind(this);
+        this.updateVehicle = this.updateVehicle.bind(this);
+        this.deleteVehicle = this.deleteVehicle.bind(this);
         this.img1Change = this.img1Change.bind(this);
         this.img2Change = this.img2Change.bind(this);
         this.img3Change = this.img3Change.bind(this);
         this.img4Change = this.img4Change.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.state.id != null) {
+            AddVehicleDataService.getVehicle(this.state.id)
+                .then(res => {
+                    this.setState({
+                        id: res.data.id,
+                        seller: res.data.seller,
+                        contact: res.data.contact,
+                        email: res.data.email,
+                        location: res.data.location,
+                        model: res.data.model,
+                        transmission: res.data.transmission,
+                        year: res.data.year,
+                        manufacturer: res.data.manufacturer,
+                        engineCC: res.data.engineCC,
+                        fuelType: res.data.fuelType,
+                        price: res.data.price,
+                        condition: res.data.condition,
+                        category: res.data.category,
+                        moreInfo: res.data.moreInfo,
+                        img1Url: "https://auto-trader-vehicle.s3.amazonaws.com/"+res.data.img1,
+                        img2Url: "https://auto-trader-vehicle.s3.amazonaws.com/"+res.data.img2,
+                        img3Url: "https://auto-trader-vehicle.s3.amazonaws.com/"+res.data.img3,
+                        img4Url: "https://auto-trader-vehicle.s3.amazonaws.com/"+res.data.img4
+                    }, () => {
+                        if (res.data.img1 != null) {
+                            this.setState({
+                                img1Selected: true
+                            })
+                        }
+                        if (res.data.img2 != null) {
+                            this.setState({
+                                img2Selected: true
+                            })
+                        }
+                        if (res.data.img3 != null) {
+                            this.setState({
+                                img3Selected: true
+                            })
+                        }
+                        if (res.data.img4 != null) {
+                            this.setState({
+                                img4Selected: true
+                            })
+                        }
+                    })
+                })
+        }
     }
 
     addVehicle(event) {
@@ -118,11 +171,11 @@ class AddVehicle extends Component {
                     this.setState({ loading: false })
                     swal({
                         title: "Vehicle Added Successfully!",
-                        text: "Your listing is under review. We will notify about it's status within 48 hours.",
+                        text: "Your listing is under review. You will be notified soon...",
                         icon: "success",
                         button: "Ok",
                     }).then(result => {
-                        return this.props.history.push('/dashboard')
+                        return this.props.history.push('/seller')
                     })
                 })
                 .catch( error => {
@@ -135,6 +188,108 @@ class AddVehicle extends Component {
                     })
                 })
         }
+    }
+
+    updateVehicle(event) {
+        event.preventDefault();
+
+        if (this.state.seller === '') {
+            this.displayError('Name Field Cannot Be Empty')
+        } else if (this.state.contact === '') {
+            this.displayError('Contact Number Cannot Be Empty')
+        } else if (this.state.location === '') {
+            this.displayError('Location Cannot Be Empty')
+        } else if (this.state.model === '') {
+            this.displayError('Vehicle Model Cannot Be Empty')
+        } else if (this.state.transmission === '') {
+            this.displayError('Vehicle Transmission Cannot Be Empty')
+        } else if (this.state.year === '') {
+            this.displayError('Year Cannot Be Empty')
+        } else if (this.state.price === '') {
+            this.displayError('Price Cannot Be Empty')
+        } else if (this.state.manufacturer === '') {
+            this.displayError('Manufacturer Cannot Be Empty')
+        } else if (this.state.condition === '') {
+            this.displayError('Condition Cannot Be Empty')
+        } else if (this.state.engineCC === '') {
+            this.displayError('EngineCC Cannot Be Empty')
+        } else if (this.state.type === '') {
+            this.displayError('Type Cannot Be Empty')
+        } else if (this.state.category === '') {
+            this.displayError('Category Cannot Be Empty')
+        }  else if (this.state.img1 == null) {
+            this.displayError('Images Of Vehicles Should Be Added!')
+        }  else if (this.state.img2 == null) {
+            this.displayError('Images Of Vehicles Should Be Added!')
+        }  else if (this.state.img3 == null) {
+            this.displayError('Images Of Vehicles Should Be Added!')
+        }  else if (this.state.img4 == null) {
+            this.displayError('Images Of Vehicles Should Be Added!')
+        } else {
+            this.setState({ loading: true })
+
+            let formData = new FormData();
+            formData.append('id', this.state.id);
+            formData.append('email', this.state.email);
+            formData.append('contact', this.state.contact);
+            formData.append('seller', this.state.seller);
+            formData.append('location', this.state.location);
+            formData.append('date', this.state.date);
+            formData.append('model', this.state.model);
+            formData.append('transmission', this.state.transmission);
+            formData.append('year', this.state.year);
+            formData.append('manufacturer', this.state.manufacturer);
+            formData.append('engineCC', this.state.engineCC);
+            formData.append('fuelType', this.state.fuelType);
+            formData.append('price', this.state.price);
+            formData.append('condition', this.state.condition);
+            formData.append('category', this.state.category);
+            formData.append('moreInfo', this.state.moreInfo);
+            formData.append('img1', this.state.img1);
+            formData.append('img2', this.state.img2);
+            formData.append('img3', this.state.img3);
+            formData.append('img4', this.state.img4);
+
+            AddVehicleDataService.updateVehicle(formData)
+                .then(res => {
+                    this.setState({ loading: false })
+                    swal({
+                        title: "Vehicle Details Updated Successfully!",
+                        text: "Your listing is under review. You will be notified soon...",
+                        icon: "success",
+                        button: "Ok",
+                    }).then(result => {
+                        return this.props.history.push('/seller')
+                    })
+                })
+                .catch( error => {
+                    this.setState({loading: false})
+                    swal({
+                        title: "Oops!",
+                        text: "Something went wrong. Please try again.",
+                        icon: "error",
+                        button: "Ok",
+                    })
+                })
+        }
+    }
+
+    deleteVehicle() {
+        swal({
+            title: "Are You Sure, Delete?",
+            text: this.state.title,
+            icon: "warning",
+            buttons: true
+        }).then((result) => {
+            if ((result)) {
+                this.setState({loading: true})
+                AddVehicleDataService.deleteVehicle(this.state.id)
+                    .then(res => {
+                        this.setState({loading: false})
+                        return this.props.history.push('/seller');
+                    })
+            }
+        })
     }
 
     displayError(msg) {
@@ -404,7 +559,9 @@ class AddVehicle extends Component {
                             </Col>
                         </Row>
 
-                        <Button type="submit" variant="dark" className="attendeeregistration-button" >Submit</Button>
+                        {!this.state.id && <Button onClick={this.addVehicle} variant="dark" className="attendeeregistration-button" >Submit</Button>}
+                        {this.state.id && <Button onClick={this.updateVehicle} variant="dark" className="attendeeregistration-button" >Update</Button>}
+                        {this.state.id && <Button onClick={this.deleteVehicle} variant="danger" className="delete-button" >Delete</Button>}
                         {this.state.error && <p className="attendeeregistration-error">{this.state.error}</p>}
 
                     </Form>

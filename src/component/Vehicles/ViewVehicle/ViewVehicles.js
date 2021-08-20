@@ -29,7 +29,7 @@ class Vehicle extends Component {
         let example = {
             model: this.state.search,
             category: this.state.category,
-            status: "Pending"
+            status: "Approved"
         }
         ViewVehicleDataService.getVehicles(example)
             .then(response => {
