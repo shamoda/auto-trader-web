@@ -154,7 +154,7 @@ export default class ManageUsers extends Component {
                 </tbody>
               </Table>
             </Card.Body>
-            {/* <Card.Footer style={{ backgroundColor: "white", color: "black", border: "none" }}>
+            <Card.Footer style={{ backgroundColor: "white", color: "black", border: "none" }}>
                             <div style={{ float: "left" }}>
                                 Showing Page {currentPage} of {Math.ceil(totalPages)}
                             </div>
@@ -179,7 +179,7 @@ export default class ManageUsers extends Component {
                                     </InputGroup.Append>
                                 </InputGroup>
                             </div>
-                    </Card.Footer> */}
+                    </Card.Footer>
                   
             
 

@@ -4,7 +4,7 @@ import { HOST_URL } from '../../Api'
 
 class MyAccountDataService {
   updateUser(user){
-    return axios.post(HOST_URL+'/api/v1/user', user);
+    return axios.put(HOST_URL+'/api/v1/user', user);
   }
 
   deleteUser(id) {
