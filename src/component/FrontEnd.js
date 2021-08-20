@@ -46,6 +46,7 @@ class FrontEnd extends Component {
             <Route path="/seller" component={Seller} />
             <Route path="/registration" component={UserRegistration}/>
             <Route path="/account" component={MyAccount}/>
+            <Route path="/addvehicle/:id" component={AddVehicle} />
             <Route path="/addvehicle" component={AddVehicle} />
             <Route path="/vehicles" component={Vehicle}/>
             <Route path="/vehicle/:id" component={VehicleDetailedView}/>

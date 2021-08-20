@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import { Col, Container, Nav, Row, Tab } from 'react-bootstrap';
 import HomeSpare from './HomeSpare/HomeSpare';
+import HomeVehicle from "./HomeVehicle/HomeVehicle";
 import './Home.css'
 
 class Home extends Component {
-    
+
+    CardClick = (id) => {
+        return this.props.history.push('/vehicle/' + id);
+    }
+
     clicked = (id) => {
         return this.props.history.push('/sparepart/' + id);
     }
-    
-    render() { 
-        return ( 
+
+    render() {
+        return (
             <div>
                 <div className="spare-banner">
                     <h1>Drop the Gear and Disappear...</h1>
@@ -39,7 +44,7 @@ class Home extends Component {
                                     <Tab.Content>
                                         <Tab.Pane eventKey="first">
                                             <div>
-                                                Vehicle Component will Rendered Here
+                                                <HomeVehicle CardClick={this.CardClick}/>
                                             </div>
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="second">
@@ -64,5 +69,5 @@ class Home extends Component {
          );
     }
 }
- 
+
 export default Home;

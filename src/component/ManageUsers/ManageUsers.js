@@ -180,11 +180,15 @@ export default class ManageUsers extends Component {
                                 </InputGroup>
                             </div>
                     </Card.Footer>
-                  
             
-
           </Card>
         </Container>
+
+        <Modal centered size="sm" show={this.state.loading} onHide={() => console.log('please wait...')}>
+          <Modal.Header>
+            <Modal.Title><Spinner animation="border" /> Please wait...</Modal.Title>
+          </Modal.Header>
+        </Modal>
         
       </div>
     )
