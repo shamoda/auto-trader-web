@@ -19,10 +19,10 @@ class SparePartCard extends Component {
         return (
             <Card onClick={() => this.cardClicked(this.props.id)} className="shadow card-hover">
                 <Row>
-                    <Col md={3} style={{padding: "40px"}}>
+                    <Col md={3} style={{paddingLeft: "30px", paddingTop: "17px", paddingBottom: "12px"}}>
                         <Image src={"https://auto-trader-spare.s3.amazonaws.com/"+this.props.img} rounded fluid />
                     </Col>
-                    <Col md={9} style={{padding: "35px 40px"}}>
+                    <Col md={9} style={{padding: "10px 30px"}}>
                         <p style={{fontSize:"25px", fontWeight: "600", margin: "0px"}}>{this.props.title}</p>
                         <p style={{fontSize:"18px", fontWeight: "600", margin: "0px"}}>Rs.{this.props.price}</p>
                         <p style={{margin: "0px", paddingTop:"10px"}}>{this.props.location}</p>
