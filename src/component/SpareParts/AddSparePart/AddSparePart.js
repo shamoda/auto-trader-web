@@ -64,6 +64,7 @@ class AddSparePart extends Component {
                         condition: res.data.condition,
                         type: res.data.type,
                         category: res.data.category,
+                        date: res.data.date,
                         additionalInfo: res.data.additionalInfo,
                         img1Url: "https://auto-trader-spare.s3.amazonaws.com/"+res.data.img1,
                         img2Url: "https://auto-trader-spare.s3.amazonaws.com/"+res.data.img2,
