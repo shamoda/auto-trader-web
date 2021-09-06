@@ -44,7 +44,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                input 'Does the Dev environment look OK?'
+                input 'Does the Dev environment looks OK?'
                 milestone(1)
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     sshPublisher(
