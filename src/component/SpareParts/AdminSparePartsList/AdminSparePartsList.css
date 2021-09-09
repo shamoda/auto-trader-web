@@ -1,0 +1,15 @@
+.report {
+    padding: "0px";
+    margin: "0px";
+    text-decoration: "none"; 
+    color: "black";
+}
+
+.report:hover {
+    padding: "0px";
+    margin: "0px";
+    text-decoration: "none"; 
+    font-weight: 500;
+    background-color: whitesmoke;
+    border-radius: 5px;
+}

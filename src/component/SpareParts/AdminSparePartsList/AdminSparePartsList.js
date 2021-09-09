@@ -3,6 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Component } from 'react';
 import { Badge, Button, Card, Col, Container, Form, FormCheck, FormControl, Image, InputGroup, ListGroup, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import moment from 'moment'
 import SparePartCard from '../SparePartCard/SparePartCard';
 import './AdminSparePartsList.css'
 import AdminSparePartsListDataService from './AdminSparePartsListDataService'
@@ -14,6 +17,7 @@ class AdminSparePartsList extends Component {
     this.state = {
       checked: false,
       spares: [],
+      report: [],
 
       currentPage: 1,
       entriesPerPage: 5,
@@ -22,7 +26,8 @@ class AdminSparePartsList extends Component {
       loading: false
     }
 
-    this.refreshSpares = this.refreshSpares.bind(this);
+      this.refreshSpares = this.refreshSpares.bind(this);
+      this.generateReport = this.generateReport.bind(this);
   }
 
   refreshSpares() {
@@ -38,6 +43,10 @@ class AdminSparePartsList extends Component {
             .then(response => {
                 this.setState({ spares: response.data })
             })
+      AdminSparePartsListDataService.getReportSpares()
+      .then(response => {
+          this.setState({report: response.data})
+      })
   }
   
   componentDidMount() {
@@ -46,7 +55,42 @@ class AdminSparePartsList extends Component {
 
   clicked = (id) => {
         return this.props.clicked(id);
-  }
+    }
+    
+    generateReport() {
+        const unit = "pt";
+        const size = "A3";
+        const orientation = "landscape";
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
+
+        const title = "Latest Spare Part Listings: " + moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+        const headers = [["ID", "Title", "Price", "Posted Date", "Status", "Seller", "Contact", "E-Mail"]];
+
+        const records = this.state.report.map(
+            item => [
+                item.id,
+                item.title,
+                "Rs."+item.price,
+                moment(item.date).format('YYYY-MM-DD'),
+                item.status,
+                item.seller,
+                item.contact,
+                item.email
+            ]
+        );
+
+        let content = {
+            startY: 50,
+            head: headers,
+            body: records
+        };
+        doc.setFontSize(20);
+        doc.text(title, marginLeft, 40);
+        require('jspdf-autotable');
+        doc.autoTable(content);
+        doc.save("SpareParts "+moment(new Date()).format('YYYY-MM-DD HH:mm:ss')+".pdf")
+    }
 
   firstPage = () => {
         if (this.state.currentPage > 1) {
@@ -131,7 +175,7 @@ class AdminSparePartsList extends Component {
                                             </Form.Group>
                                         </Col>
                                         <Col>
-                                        <FontAwesomeIcon style={{ marginTop: "8px" }} icon={faFilePdf} />&nbsp; <a href="#" style={{padding: "0px", margin: "0px", textDecoration: "none", color: "black"}}>Get latest 100 listings</a>
+                                        <FontAwesomeIcon style={{ marginTop: "8px" }} icon={faFilePdf} />&nbsp; <span onClick={this.generateReport} className="report">Get latest 100 listings</span>
                                         </Col>
                                         <Col>
                                             <InputGroup size="sm">
