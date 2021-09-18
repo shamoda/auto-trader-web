@@ -23,6 +23,10 @@ import {
   ListGroup,
   Row,
 } from 'react-bootstrap';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import moment from 'moment'
+
 import { Link, withRouter } from 'react-router-dom';
 import VehicleServiceListDataService from '../ProvidersServiceList/VehicleServiceListDataService';
 import ServiceDetailCard from '../ServiceCard/ServiceDetailCard';
@@ -42,6 +46,7 @@ class AdminServiceList extends Component {
     };
 
     this.refreshServices = this.refreshServices.bind(this);
+    this.generateReport = this.generateReport.bind(this)
   }
 
   refreshServices() {
@@ -124,6 +129,40 @@ class AdminServiceList extends Component {
     );
   };
 
+      generateReport() {
+        const unit = "pt";
+        const size = "A3";
+        const orientation = "landscape";
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
+
+        const title = "Latest Services Listings: " + moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+        const headers = [["ID", "Title", "Price", "Posted Date", "Status", "Seller", "Contact", "E-Mail"]];
+
+        const records = this.state.services.map(
+            item => [
+                item.id,
+                item.title,
+                "Rs."+item.price,
+                moment(item.currentTime).format('YYYY-MM-DD'),
+                item.status,
+                item.serviceProvider,
+                item.contact,
+                item.email
+            ]
+        );
+
+        let content = {
+            startY: 50,
+            head: headers,
+            body: records
+        };
+        doc.setFontSize(20);
+        doc.text(title, marginLeft, 40);
+        require('jspdf-autotable');
+        doc.autoTable(content);
+        doc.save("Services "+moment(new Date()).format('YYYY-MM-DD HH:mm:ss')+".pdf")
+    }
   render() {
     const { currentPage, entriesPerPage, services, search } = this.state;
     const lastIndex = currentPage * entriesPerPage;
@@ -181,22 +220,7 @@ class AdminServiceList extends Component {
                       </Form.Group>
                     </Col>
                     <Col>
-                      <FontAwesomeIcon
-                        style={{ marginTop: '8px' }}
-                        icon={faFilePdf}
-                      />
-                      &nbsp;{' '}
-                      <a
-                        href="#"
-                        style={{
-                          padding: '0px',
-                          margin: '0px',
-                          textDecoration: 'none',
-                          color: 'black',
-                        }}
-                      >
-                        Get Top 50 Customers
-                      </a>
+                       <FontAwesomeIcon style={{ marginTop: "8px"}} icon={faFilePdf} />&nbsp; <span  style={{ cursor:"pointer" }} onClick={this.generateReport} className="report">Get latest 100 listings</span>
                     </Col>
                     <Col>
                       <InputGroup size="sm">
