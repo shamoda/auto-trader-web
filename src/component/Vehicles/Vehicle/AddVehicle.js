@@ -24,6 +24,7 @@ class AddVehicle extends Component {
             condition: '',
             category: '',
             moreInfo: '',
+            date: '',
 
             img1: null,
             img1Url: null,
@@ -77,6 +78,7 @@ class AddVehicle extends Component {
                         price: res.data.price,
                         condition: res.data.condition,
                         category: res.data.category,
+                        date: res.data.date,
                         moreInfo: res.data.moreInfo,
                         img1Url: "https://auto-trader-vehicle.s3.amazonaws.com/"+res.data.img1,
                         img2Url: "https://auto-trader-vehicle.s3.amazonaws.com/"+res.data.img2,

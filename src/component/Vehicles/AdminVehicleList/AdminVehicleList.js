@@ -2,6 +2,9 @@ import { faFastBackward, faFastForward, faFilePdf, faSearch, faStepBackward, faS
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Component } from 'react';
 import { Button, Card, Col, Container, Form, FormControl, InputGroup, Row } from 'react-bootstrap';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import moment from 'moment'
 
 import VehicleCard from "../Components/VehicleCard";
 import AdminVehicleListDataService from "./AdminVehicleListDataService";
@@ -13,6 +16,7 @@ class AdminVehicleList extends Component {
         this.state = {
             checked: false,
             vehicles: [],
+            report: [],
 
             currentPage: 1,
             entriesPerPage: 5,
@@ -22,6 +26,7 @@ class AdminVehicleList extends Component {
         }
 
         this.loadVehicles = this.loadVehicles.bind(this);
+        this.generateReport = this.generateReport.bind(this);
     }
 
     loadVehicles() {
@@ -37,7 +42,49 @@ class AdminVehicleList extends Component {
             .then(response => {
                 this.setState({ vehicles: response.data })
             })
+        AdminVehicleListDataService.getVehiclesReport()
+            .then(response => {
+                this.setState({report: response.data})
+            })
     }
+
+    generateReport() {
+        const unit = "pt";
+        const size = "A3";
+        const orientation = "landscape";
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
+
+        const title = "Latest Vehicle Listings: " + moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+        const headers = [["ID", "Title", "Price", "Posted Date", "Status", "Seller", "Contact", "E-Mail"]];
+
+        const records = this.state.report.map(
+            item => [
+                item.id,
+                item.model,
+                item.year,
+                item.manufacturer,
+                "Rs."+item.price,
+                moment(item.date).format('YYYY-MM-DD'),
+                item.status,
+                item.seller,
+                item.contact,
+                item.email
+            ]
+        );
+
+        let content = {
+            startY: 50,
+            head: headers,
+            body: records
+        };
+        doc.setFontSize(20);
+        doc.text(title, marginLeft, 40);
+        require('jspdf-autotable');
+        doc.autoTable(content);
+        doc.save("Vehicles "+moment(new Date()).format('YYYY-MM-DD HH:mm:ss')+".pdf")
+    }
+
 
     componentDidMount() {
         this.loadVehicles()
@@ -130,7 +177,7 @@ class AdminVehicleList extends Component {
                                             </Form.Group>
                                         </Col>
                                         <Col>
-                                            <FontAwesomeIcon style={{ marginTop: "8px", marginLeft: "-60px" }} icon={faFilePdf} />&nbsp; <a href="#" style={{padding: "0px", margin: "0px", textDecoration: "none", color: "black"}}>Get latest 100 Vehicle listings</a>
+                                            <FontAwesomeIcon style={{ marginTop: "8px", marginLeft: "-60px" }} icon={faFilePdf} />&nbsp; <span onClick={this.generateReport} className="report">Get latest 100 Vehicle listings</span>
                                         </Col>
                                         <Col>
                                             <InputGroup size="sm">
