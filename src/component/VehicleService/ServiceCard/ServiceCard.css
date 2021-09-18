@@ -1,0 +1,7 @@
+.card-hover {
+    margin: 10px 0px;
+}
+
+.card-hover:hover {
+    background-color: whitesmoke;
+}

@@ -13,18 +13,23 @@ export default function TextArea(props) {
       placeholder,
     } = props;
     return (
-
-        <Form.Group controlId="aa" >
-            <Form.Label>{FormLabel}</Form.Label>
-            <Form.Control onChange={handleChange} name={name} value={value} placeholder={placeholder} type={type} as="textarea" />
-            <Form.Text className="text-muted">
-                {FormText}
-            </Form.Text>
-            {error && <Alert variant="danger" >
-                <Alert.Heading style={{ fontSize: "15px" }}>
-                    {error}
-                </Alert.Heading>
-            </Alert>}
-        </Form.Group>
+      <Form.Group controlId="aa">
+        <Form.Label>{FormLabel}</Form.Label>
+        <Form.Control
+          onChange={handleChange}
+          name={name}
+          value={value}
+          placeholder={placeholder}
+          type={type}
+          as="textarea"
+          rows={5}
+        />
+        <Form.Text className="text-muted">{FormText}</Form.Text>
+        {error && (
+          <Alert variant="danger">
+            <Alert.Heading style={{ fontSize: '15px' }}>{error}</Alert.Heading>
+          </Alert>
+        )}
+      </Form.Group>
     );
 }
