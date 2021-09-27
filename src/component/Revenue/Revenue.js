@@ -4,6 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBorderAll, faDownload, faFastBackward, faFastForward, faFilePdf, faSearch, faStepBackward, faStepForward, faTrash, faUserGraduate, faUserMd, faUsersCog } from '@fortawesome/free-solid-svg-icons'
 import { faResearchgate, faPatreon } from '@fortawesome/free-brands-svg-icons';
 import swal from 'sweetalert';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import moment from 'moment'
 import RevenueDataService from './RevenueDataService';
 
 
@@ -13,9 +16,11 @@ export default class Revenue extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      revenue: '',
-      expenses: '',
-      month: '',
+      revenue: null,
+      expense: null,
+      date: null,
+      records: [],
+
       error: '',
       loading: '',
       currentPage: 1,
@@ -24,44 +29,108 @@ export default class Revenue extends Component {
       searchMessage: null,
       loading: false
     }
-    //this.refreshRevenueDetails = this.refreshRevenueDetails.bind(this);
+    this.refreshRecords = this.refreshRecords.bind(this);
     this.revenueDetails = this.revenueDetails.bind(this);
-    //this.displayError = this.displayError.bind(this);
+    this.displayError = this.displayError.bind(this);
+    this.generateReport = this.generateReport.bind(this);
+  }
+
+  componentDidMount() {
+    this.refreshRecords()
+  }
+
+  refreshRecords() {
+    RevenueDataService.getRevenue()
+      .then(res => {
+        this.setState({ records: res.data })
+      })
   }
 
 
-  revenueDetails(event) {
-    event.preventDefault();
+  generateReport() {
+        const unit = "pt";
+        const size = "A3";
+        const orientation = "landscape";
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
 
-    if (this.state.revenue === '') {
+        const title = "Revenue Report: " + moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+        const headers = [["ID", "Date", "Revenue", "Expenses", "Profit"]];
+
+        const records = this.state.records.map(
+            item => [
+                item.id,
+                item.date,
+                "Rs." + item.revenue,
+                "Rs." + item.expense,
+                "Rs."+item.profit,
+                // moment(item.date).format('YYYY-MM-DD'),
+                // item.status,
+                // item.seller,
+                // item.contact,
+                // item.email
+            ]
+        );
+
+        let content = {
+            startY: 50,
+            head: headers,
+            body: records
+        };
+        doc.setFontSize(20);
+        doc.text(title, marginLeft, 40);
+        require('jspdf-autotable');
+        doc.autoTable(content);
+        doc.save("Revenue-Report "+moment(new Date()).format('YYYY-MM-DD HH:mm:ss')+".pdf")
+    }
+
+
+
+  deleteRecord(id) {
+    RevenueDataService.deleteRevenue(id)
+      .then(res => {
+        swal({
+            title: "Record Deleted Successfully",
+            icon: "error",
+            button: "Ok",
+        })
+        this.refreshRecords()
+      })
+  }
+
+
+  revenueDetails() {
+
+    if (this.state.revenue === null) {
       this.displayError('Revenue cannot be empty')
-    } else if (this.state.expenses === '') {
+    } else if (this.state.expense === null) {
       this.displayError('Expenses cannot be empty')
-    } else if (this.state.month === '') {
-      this.displayError('Month cannot be empty')
+    } else if (this.state.date === null) {
+      this.displayError('Date cannot be empty')
     } else {
       this.setState({ loading: true })
 
       let formData = new FormData();
       formData.append('revenue', this.state.revenue);
-      formData.append('expenses', this.state.expenses);
-      formData.append('month', this.state.month);
+      formData.append('expense', this.state.expense);
+      formData.append('date', this.state.date);
 
-      RevenueDataService.revenueDetails(formData)
+      RevenueDataService.addRevenue(formData)
         .then(response => {
-          this.setState({ loading: false })
+          this.setState({ loading: false, expense: '', revenue: '', date: '' })
           swal({
-            title: "Revenue Details added Successful!",
-            text: "Monthly revenue details added successfully",
+            title: "Record added Successfully",
             icon: "success",
             button: "Ok",
           })
+          this.refreshRecords()
+          // this.setState({expense: null, revenue: null, date: null})
         })
         .catch(error => {
-          this.setState({ loading: false })
+          this.setState({ loading: false, expense: '', revenue: '', date: '' })
           swal({
             title: "Oops!",
-            text: "Seems your email address is already exists. Please try again.",
+            text: "Something went wrong",
             icon: "error",
             button: "Ok",
           })
@@ -69,52 +138,60 @@ export default class Revenue extends Component {
     }
   };
 
-  // firstPage = () => {
-  //   if (this.state.currentPage > 1) {
-  //     this.setState({
-  //       currentPage: 1
-  //     });
-  //   }
-  // };
+  displayError(txt) {
+      swal({
+            title: txt,
+            icon: "warning",
+            button: "Ok",
+          })
+  }
 
-  // prevPage = () => {
-  //   if (this.state.currentPage > 1) {
-  //     this.setState({
-  //       currentPage: this.state.currentPage - 1
-  //     });
-  //   }
-  // };
+  firstPage = () => {
+    if (this.state.currentPage > 1) {
+      this.setState({
+        currentPage: 1
+      });
+    }
+  };
 
-  // lastPage = () => {
-  //   if (this.state.currentPage < Math.ceil(this.state.spares.length / this.state.entriesPerPage)) {
-  //     this.setState({
-  //       currentPage: Math.ceil(this.state.spares.length / this.state.entriesPerPage)
-  //     });
-  //   }
-  // };
+  prevPage = () => {
+    if (this.state.currentPage > 1) {
+      this.setState({
+        currentPage: this.state.currentPage - 1
+      });
+    }
+  };
 
-  // nextPage = () => {
-  //   if (this.state.currentPage < Math.ceil(this.state.spares.length / this.state.entriesPerPage)) {
-  //     this.setState({
-  //       currentPage: this.state.currentPage + 1
-  //     });
-  //   }
-  // };
+  lastPage = () => {
+    if (this.state.currentPage < Math.ceil(this.state.records.length / this.state.entriesPerPage)) {
+      this.setState({
+        currentPage: Math.ceil(this.state.records.length / this.state.entriesPerPage)
+      });
+    }
+  };
+
+  nextPage = () => {
+    if (this.state.currentPage < Math.ceil(this.state.records.length / this.state.entriesPerPage)) {
+      this.setState({
+        currentPage: this.state.currentPage + 1
+      });
+    }
+  };
 
   handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
-    }, () => this.refreshRevenueDetails());
+    }, () => this.refreshRecords());
 
   };
 
   render() {
 
-    // const { currentPage, entriesPerPage, spares, search } = this.state;
-    // const lastIndex = currentPage * entriesPerPage;
-    // const firstIndex = lastIndex - entriesPerPage;
-    // const currentEntries = spares.slice(firstIndex, lastIndex);
-    // const totalPages = spares.length / entriesPerPage;
+    const { currentPage, entriesPerPage, records, search } = this.state;
+    const lastIndex = currentPage * entriesPerPage;
+    const firstIndex = lastIndex - entriesPerPage;
+    const currentEntries = records.slice(firstIndex, lastIndex);
+    const totalPages = records.length / entriesPerPage;
 
     const pageNumCss = {
       width: "45px",
@@ -143,18 +220,19 @@ export default class Revenue extends Component {
                   <Row >
                     <InputGroup size="sm">
                       <Col>
-                        <FontAwesomeIcon style={{ marginTop: "8px" }} icon={faFilePdf} />&nbsp; <a href="#" style={{ padding: "0px", margin: "0px", textDecoration: "none", color: "black" }}>Get Revenue Report</a>
+                        {/* <FontAwesomeIcon style={{ marginTop: "8px" }} icon={faFilePdf} />&nbsp; <a href="#" style={{ padding: "0px", margin: "0px", textDecoration: "none", color: "black" }}>Get Revenue Report</a> */}
+                        <FontAwesomeIcon style={{ marginTop: "8px" }} icon={faFilePdf} />&nbsp; <span onClick={this.generateReport} className="report">Get Revenue Report</span>
                       </Col>
-                      <Col>
+                      {/* <Col>
                         <InputGroup size="sm">
                           <FontAwesomeIcon style={{ marginTop: "8px" }} icon={faSearch} />&nbsp; <FormControl onChange={this.handleChange} style={searchBox} autoComplete="off" placeholder="start typing..." name="search" value={this.state.search} className="" />&nbsp;
                         </InputGroup>
-                      </Col>
+                      </Col> */}
                     </InputGroup>
                   </Row>
                 </div>
 
-                 <Form autoComplete="off" onSubmit={this.revenueDetails} > 
+                 <Form autoComplete="off" > 
                 <Row>
                   <Col>
                     <Form.Group controlId="revenue">
@@ -163,18 +241,18 @@ export default class Revenue extends Component {
                   </Col>
                   <Col className="revenue-from-row">
                     <Form.Group controlId="expenses" className="revenue-form-group">
-                      <Form.Control onChange={this.handleChange} name="expenses" value={this.state.expenses} type="number" placeholder="Enter Expenses" className="revenue-form-input" />
+                      <Form.Control onChange={this.handleChange} name="expense" value={this.state.expense} type="number" placeholder="Enter Expenses" className="revenue-form-input" />
                     </Form.Group>
                   </Col>
                   <Col className="revenue-from-row">
                     <Form.Group controlId="month" className="revenue-form-group">
-                      <Form.Control onChange={this.handleChange} name="contact" value={this.state.month} type="date" placeholder="Month" className="revenue-form-input" />
+                      <Form.Control onChange={this.handleChange} name="date" value={this.state.date} type="date" placeholder="Date" className="revenue-form-input" />
                     </Form.Group>
 
                   </Col>
                   <Col className="revenue-from-row">
                     <Form.Group controlId="month" className="revenue-form-group">
-                      <Button type="submit" className="revenueDetails-button" variant="success">Submit</Button>
+                      <Button onClick={this.revenueDetails} className="revenueDetails-button" variant="success">Submit</Button>
                       {this.state.error && <p className="revenueDetails-error">{this.state.error}</p>}
                     </Form.Group>
                   </Col>
@@ -197,106 +275,55 @@ export default class Revenue extends Component {
                   </tr> : */}
                   {/* currentEntries.map((user) => ( */}
 
-                  <tr >
-                    <td style={{ padding: '30px' }}>
-                      <h5>Date: 2021/04/09</h5>
-                      <p style={{ padding: "0px", margin: "0px" }}>Revenue: RS 250000</p>
-                      <p style={{ padding: "0px", margin: "0px" }}>Expenses: RS 175000</p>
-                    </td>
+                  {this.state.records.length === 0 ? <p style={{ textAlign: "center" }}>No Results Found</p> :
+                    currentEntries.map((record) => (
+                      <tr >
+                      <td style={{ padding: '30px' }}>
+                          <h5>Date: { record.date }</h5>
+                          <p style={{ padding: "0px", margin: "0px" }}>Revenue: RS { record.revenue }</p>
+                          <p style={{ padding: "0px", margin: "0px" }}>Expenses: RS { record.expense }</p>
+                      </td>
 
-                    <td style={{ padding: "25px" }}>
-                      <p style={{ padding: "0px", marginRight: "0px" }}>Profit: RS 75000</p>
-                    </td>
-                    <td style={{ width: "15%", textAlign: "center", padding: "30px 0px" }}><Button variant="outline-danger"><FontAwesomeIcon icon={faTrash} /></Button></td>
+                      <td style={{ padding: "25px" }}>
+                        <p style={{ padding: "0px", marginRight: "0px" }}>Profit: RS { record.profit }</p>
+                      </td>
+                      <td style={{ width: "15%", textAlign: "center", padding: "30px 0px" }}><Button onClick={() => this.deleteRecord(record.id)} variant="outline-danger"><FontAwesomeIcon icon={faTrash} /></Button></td>
 
-                  </tr>
+                      </tr>
+                    ))  
+                }
 
-
-                  <tr >
-                    <td style={{ padding: '30px' }}>
-                      <h5>Date: 2021/03/06</h5>
-                      <p style={{ padding: "0px", margin: "0px" }}>Revenue: RS 250000</p>
-                      <p style={{ padding: "0px", margin: "0px" }}>Expenses: RS 175000</p>
-                    </td>
-
-                    <td style={{ padding: "25px" }}>
-                      <p style={{ padding: "0px", marginRight: "0px" }}>Profit: RS 75000</p>
-                    </td>
-                    <td style={{ width: "15%", textAlign: "center", padding: "30px 0px" }}><Button variant="outline-danger"><FontAwesomeIcon icon={faTrash} /></Button></td>
-
-                  </tr>
-
-                  <tr >
-                    <td style={{ padding: '30px' }}>
-                      <h5>Date: 2021/01/08</h5>
-                      <p style={{ padding: "0px", margin: "0px" }}>Revenue: RS 250000</p>
-                      <p style={{ padding: "0px", margin: "0px" }}>Expenses: RS 175000</p>
-                    </td>
-
-                    <td style={{ padding: "25px" }}>
-                      <p style={{ padding: "0px", marginRight: "0px" }}>Profit: RS 75000</p>
-                    </td>
-                    <td style={{ width: "15%", textAlign: "center", padding: "30px 0px" }}><Button variant="outline-danger"><FontAwesomeIcon icon={faTrash} /></Button></td>
-
-                  </tr>
-                  <tr >
-                    <td style={{ padding: '30px' }}>
-                      <h5>Date: 2021/01/08</h5>
-                      <p style={{ padding: "0px", margin: "0px" }}>Revenue: RS 250000</p>
-                      <p style={{ padding: "0px", margin: "0px" }}>Expenses: RS 175000</p>
-                    </td>
-
-                    <td style={{ padding: "25px" }}>
-                      <p style={{ padding: "0px", marginRight: "0px" }}>Profit: RS 75000</p>
-                    </td>
-                    <td style={{ width: "15%", textAlign: "center", padding: "30px 0px" }}><Button variant="outline-danger"><FontAwesomeIcon icon={faTrash} /></Button></td>
-
-                  </tr>
-                  <tr >
-                    <td style={{ padding: '30px' }}>
-                      <h5>Date: 2021/01/08</h5>
-                      <p style={{ padding: "0px", margin: "0px" }}>Revenue: RS 250000</p>
-                      <p style={{ padding: "0px", margin: "0px" }}>Expenses: RS 175000</p>
-                    </td>
-
-                    <td style={{ padding: "25px" }}>
-                      <p style={{ padding: "0px", marginRight: "0px" }}>Profit: RS 75000</p>
-                    </td>
-                    <td style={{ width: "15%", textAlign: "center", padding: "30px 0px" }}><Button variant="outline-danger"><FontAwesomeIcon icon={faTrash} /></Button></td>
-
-                  </tr>
                   {/* )) }*/}
                 </tbody>
               </Table>
               
             </Card.Body>
             <Card.Footer style={{ backgroundColor: "white", color: "black", border: "none" }}>
-              <div style={{ float: "left" }}>
-                Showing Page 1 of 1
-                {/* Showing Page {currentPage} of {Math.ceil(totalPages)} */}
-              </div>
-              <div style={{ float: "right" }}>
-                <InputGroup size="sm">
-                  <InputGroup.Prepend>
-                    <Button type="button" variant="outline-dark"  >
-                      <FontAwesomeIcon icon={faFastBackward} /> First
-                    </Button>
-                    <Button type="button" variant="outline-dark"  >
-                      <FontAwesomeIcon icon={faStepBackward} /> Prev
-                    </Button>
-                  </InputGroup.Prepend>
-                  <FormControl style={pageNumCss} className="" name="currentPage" disabled />
-                  <InputGroup.Append>
-                    <Button type="button" variant="outline-dark"  onClick={this.nextPage}>
-                      Next <FontAwesomeIcon icon={faStepForward} />
-                    </Button>
-                    <Button type="button" variant="outline-dark"  >
-                      Last <FontAwesomeIcon icon={faFastForward} />
-                    </Button>
-                  </InputGroup.Append>
-                </InputGroup>
-              </div>
-            </Card.Footer>
+                            <div style={{ float: "left" }}>
+                                Showing Page {currentPage} of {Math.ceil(totalPages)}
+                            </div>
+                            <div style={{ float: "right" }}>
+                                <InputGroup size="sm">
+                                    <InputGroup.Prepend>
+                                        <Button type="button" variant="outline-dark" disabled={currentPage === 1 ? true : false} onClick={this.firstPage}>
+                                            <FontAwesomeIcon icon={faFastBackward} /> First
+                                        </Button>
+                                        <Button type="button" variant="outline-dark" disabled={currentPage === 1 ? true : false} onClick={this.prevPage}>
+                                            <FontAwesomeIcon icon={faStepBackward} /> Prev
+                                        </Button>
+                                    </InputGroup.Prepend>
+                                    <FormControl style={pageNumCss} className="" name="currentPage" value={currentPage} disabled />
+                                    <InputGroup.Append>
+                                        <Button type="button" variant="outline-dark" disabled={currentPage === totalPages ? true : false} onClick={this.nextPage}>
+                                            Next <FontAwesomeIcon icon={faStepForward} />
+                                        </Button>
+                                        <Button type="button" variant="outline-dark" disabled={currentPage === totalPages ? true : false} onClick={this.lastPage}>
+                                            Last <FontAwesomeIcon icon={faFastForward} />
+                                        </Button>
+                                    </InputGroup.Append>
+                                </InputGroup>
+                            </div>
+                    </Card.Footer>
           </Card>
         </Container>
       </div>
